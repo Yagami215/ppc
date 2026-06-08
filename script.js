@@ -2,7 +2,15 @@
 // GACHA DATA — each rarity has a flat power multiplier (mult)
 // ============================================================
 const RELIC_MULT = 3.5;
-const LEVEL_MILESTONES = [5, 15, 25, 50, 75, 100, 125];
+const LEVEL_MILESTONES = [
+  { level: 5,   mult: 1.1 },
+  { level: 15,  mult: 1.1 },
+  { level: 25,  mult: 1.15 },
+  { level: 50,  mult: 1.15 },
+  { level: 75,  mult: 1.2 },
+  { level: 100, mult: 1.2 },
+  { level: 125, mult: 1.25 },
+];
 const RELIC_IDS = [
   "relic-trial-hard",
   "relic-bizzare",
@@ -59,7 +67,7 @@ const GACHAS = [
   { name: "Hamon",            rarities: buildGachaRarities(DEFAULT_GACHA_MULTS) },
   { name: "CCG",              rarities: buildGachaRarities(DEFAULT_GACHA_MULTS) },
   { name: "Magic Career",     rarities: buildGachaRarities(DEFAULT_GACHA_MULTS) },
-  { name: "Fate",             rarities: buildGachaRarities(DEFAULT_GACHA_MULTS) },
+  { name: "PowerFull Class",             rarities: buildGachaRarities(DEFAULT_GACHA_MULTS) },
 ];
 
 const STANDS = {
@@ -86,7 +94,6 @@ const MAX_CONFIG = {
   levelStatsMult:     4.13,
 
   // ── Index ──────────────────────────────────────────────────
-  indexUnits:         16,
   indexEnemies:       16,
 
   // ── Avatar & Title ─────────────────────────────────────────
@@ -102,7 +109,7 @@ const MAX_CONFIG = {
   accessory2Mult:     5.06,
   accessory3Mult:     7.5,
   accessory4Mult:     5.63,
-  accessory5Mult:     5.63,
+  accessory5Mult:     6.56,
 
   // ── Fighters ───────────────────────────────────────────────
   fighter1Mult:       2.5,
@@ -122,7 +129,7 @@ const MAX_CONFIG = {
 
   // ── Kagune & Grimoire (set to value, or true = leave empty) ─
   kagunemult:         3,
-  grimoireNull:       true,
+  grimoireMult:       12,
 
   // ── Stand & Form (best = highest multiplier) ────────────────
   standSelect:        "the-world",   // golden | platinum | the-world
@@ -357,14 +364,85 @@ function parseMultiplier(str) {
   return val > 0 ? val : 1;
 }
 
+const AWAKENING_MULTS = [
+  1,              // 1
+  1.5,            // 2
+  2,              // 3
+  4,              // 4
+  8,              // 5
+  16,             // 6
+  32,             // 7
+  64,             // 8
+  128,            // 9
+  256,            // 10
+  512,            // 11
+  1024,           // 12
+  2048,           // 13
+  4096,           // 14
+  8192,           // 15
+  16384,          // 16
+  32768,          // 17
+  65536,          // 18
+  131072,         // 19
+  262144,         // 20
+  524288,         // 21
+  1.049e6,        // 22
+  2.097e6,        // 23
+  4.194e6,        // 24
+  8.389e6,        // 25
+  16.8e6,         // 26
+  33.6e6,         // 27
+  67.2e6,         // 28
+  134.4e6,        // 29
+  537.6e6,        // 30
+  1.075e9,        // 31
+  2.15e9,         // 32
+  4.31e9,         // 33
+  8.62e9,         // 34
+  17.24e9,        // 35
+  34.48e9,        // 36
+  68.96e9,        // 37
+  137.92e9,       // 38
+  275.84e9,       // 39
+  551.68e9,       // 40
+  1.1e12,         // 41
+  2.2e12,         // 42
+  4.4e12,         // 43
+  88.3e12,        // 44
+  176.7e12,       // 45
+  353.4e12,       // 46
+  76.68e12,       // 47
+  141.36e12,      // 48
+  282.72e12,      // 49
+  565.44e12,      // 50
+  1.13e15,        // 51
+  2.26e15,        // 52
+  4.52e15,        // 53
+  9.05e15,        // 54
+  18.1e15,        // 55
+  36.2e15,        // 56
+  72.4e15,        // 57
+  144.8e15,       // 58
+  289.6e15,       // 59
+  579.2e15,       // 60
+  1.16e18,        // 61
+  2.32e18,        // 62
+  4.64e18,        // 63
+  9.24e18,        // 64
+  18.48e18,       // 65
+  36.96e18,       // 66
+  73.92e18,       // 67
+  147.84e18,      // 68
+];
+
 function getAwakeningMultiplier() {
   let level = Math.floor(Number(document.getElementById("awakening").value) || 0);
   if (level < 1) return 1;
-  if (level > 200) {
-    level = 200;
-    document.getElementById("awakening").value = "200";
+  if (level > AWAKENING_MULTS.length) {
+    level = AWAKENING_MULTS.length;
+    document.getElementById("awakening").value = String(level);
   }
-  return Math.pow(2, level - 1);
+  return AWAKENING_MULTS[level - 1];
 }
 
 function getQuestsMultiplier() {
@@ -385,13 +463,11 @@ function getLevelMilestoneMultiplier() {
     document.getElementById("player-level").value = "1000";
   }
 
-  let milestones = 0;
-  LEVEL_MILESTONES.forEach(function (milestone) {
-    if (level >= milestone) milestones++;
+  let mult = 1;
+  LEVEL_MILESTONES.forEach(function (ms) {
+    if (level >= ms.level) mult *= ms.mult;
   });
-
-  if (milestones === 0) return 1;
-  return Math.pow(1.25, milestones);
+  return mult;
 }
 
 function getLevelPercentBonus() {
@@ -404,18 +480,14 @@ function getLevelPercentBonus() {
   return (level - 1) * 5;
 }
 
-function getIndexPercentBonus() {
-  let units = Math.max(0, Math.floor(Number(document.getElementById("index-units").value) || 0));
+function getIndexEnemiesMultiplier() {
   let enemies = Math.max(0, Math.floor(Number(document.getElementById("index-enemies").value) || 0));
-  if (units > 100000) {
-    units = 100000;
-    document.getElementById("index-units").value = "100000";
-  }
   if (enemies > 100000) {
     enemies = 100000;
     document.getElementById("index-enemies").value = "100000";
   }
-  return units * 15 + enemies * 10;
+  if (enemies === 0) return 1;
+  return Math.pow(1.1, enemies);
 }
 
 function getFeatWaveValue(featId) {
@@ -453,9 +525,9 @@ function getFeatMultiplier() {
 }
 
 function getPercentMultiplier() {
-  const basePercent = getLevelPercentBonus() + getIndexPercentBonus();
-  const basePercentMult = 1 + (basePercent > 0 ? basePercent / 100 : 0);
-  return basePercentMult * getFeatMultiplier();
+  const levelPercent = getLevelPercentBonus();
+  const levelPercentMult = 1 + (levelPercent > 0 ? levelPercent / 100 : 0);
+  return levelPercentMult * getIndexEnemiesMultiplier() * getFeatMultiplier();
 }
 
 function clampFeatWaveInput(input, maxWave) {
@@ -722,14 +794,14 @@ function buildLevelMilestoneDots() {
   LEVEL_MILESTONES.forEach(function (ms) {
     const dot = document.createElement("div");
     dot.className = "level-ms-dot";
-    dot.id = "level-ms-" + ms;
-    dot.title = "Lv " + ms + " → +25% multiplier";
+    dot.id = "level-ms-" + ms.level;
+    dot.title = "Lv " + ms.level + " → " + ms.mult + "x multiplier";
     const tick = document.createElement("span");
     tick.className = "level-ms-tick";
     tick.textContent = "✓";
     const label = document.createElement("span");
     label.className = "level-ms-label";
-    label.textContent = ms;
+    label.textContent = ms.level;
     dot.appendChild(tick);
     dot.appendChild(label);
     container.appendChild(dot);
@@ -739,9 +811,9 @@ function buildLevelMilestoneDots() {
 function updateLevelMilestoneDots() {
   const level = Math.floor(Number(document.getElementById("player-level").value) || 0);
   LEVEL_MILESTONES.forEach(function (ms) {
-    const dot = document.getElementById("level-ms-" + ms);
+    const dot = document.getElementById("level-ms-" + ms.level);
     if (!dot) return;
-    if (level >= ms) {
+    if (level >= ms.level) {
       dot.classList.add("level-ms-reached");
     } else {
       dot.classList.remove("level-ms-reached");
@@ -1087,7 +1159,6 @@ function applyMaxValues() {
   document.getElementById("level-stats-mult").value = formatMultiplier(MAX_CONFIG.levelStatsMult);
 
   // Index
-  document.getElementById("index-units").value = MAX_CONFIG.indexUnits;
   document.getElementById("index-enemies").value = MAX_CONFIG.indexEnemies;
 
   // Avatar & Title
@@ -1127,7 +1198,7 @@ function applyMaxValues() {
     : "";
 
   // Grimoire
-  document.getElementById("grimoire-mult").value = MAX_CONFIG.grimoireNull ? "" : formatMultiplier(MAX_CONFIG.grimoireNull);
+  document.getElementById("grimoire-mult").value = formatMultiplier(MAX_CONFIG.grimoireMult);
 
   // Stand & Form
   document.getElementById("stand-select").value = MAX_CONFIG.standSelect || "none";
@@ -1196,10 +1267,113 @@ function applyMaxValues() {
 
   updateDisplay();
 }
+
+// ============================================================
+// RESET ALL MULTIPLIER VALUES
+// ============================================================
+function resetMultipliers() {
+  // Awakening & Level
+  document.getElementById("awakening").value = "";
+  document.getElementById("player-level").value = "";
+  document.getElementById("level-stats-mult").value = "";
+
+  // Index
+  document.getElementById("index-enemies").value = "";
+
+  // Potions & VIP checkboxes
+  document.getElementById("potion-1").checked = false;
+  document.getElementById("potion-2").checked = false;
+  document.getElementById("potion-3").checked = false;
+  document.getElementById("vip").checked = false;
+  document.getElementById("power-pass").checked = false;
+  document.getElementById("follow-devs").checked = false;
+
+  // Avatar & Title
+  document.getElementById("avatar-mult").value = "";
+  document.getElementById("title-mult").value = "";
+
+  // Swords
+  document.getElementById("sword-1-mult").value = "";
+  document.getElementById("sword-2-mult").value = "";
+
+  // Accessories
+  for (var i = 1; i <= 5; i++) {
+    document.getElementById("accessory-" + i + "-mult").value = "";
+  }
+
+  // Stand & Form
+  document.getElementById("stand-select").value = "none";
+  document.getElementById("form-select").value = "none";
+
+  // Fighters
+  document.getElementById("fighter-1-mult").value = "";
+  document.getElementById("fighter-2-mult").value = "";
+
+  // Upgrades
+  document.getElementById("upgrade-trial-mult").value = "";
+  document.getElementById("upgrade-tempest-mult").value = "";
+  document.getElementById("upgrade-hollow-mult").value = "";
+
+  // Skill Tree
+  document.getElementById("skill-pirate-mult").value = "";
+  document.getElementById("skill-monarch-mult").value = "";
+
+  // Progression
+  PROGRESSION_IDS.forEach(function (id) {
+    document.getElementById(id).value = "";
+  });
+
+  // Kagune & Grimoire
+  document.getElementById("kagune-mult").value = "";
+  document.getElementById("grimoire-mult").value = "";
+
+  // Hunter Rank
+  document.getElementById("hunter-rank-mult").value = "";
+
+  // Servants
+  document.getElementById("servant-1-mult").value = "";
+  document.getElementById("servant-2-mult").value = "";
+
+  // Quests
+  document.getElementById("quests-completed").value = "0";
+
+  // Relics
+  RELIC_IDS.forEach(function (id) {
+    document.getElementById(id).checked = false;
+  });
+
+  // Gachas — reset all to None
+  GACHAS.forEach(function (gacha, index) {
+    var select = document.getElementById("gacha-" + index);
+    if (select) select.value = "0";
+  });
+
+  // Feats Wave/Level — clear all
+  FEAT_WAVE.forEach(function (feat) {
+    var waveInput = document.getElementById("feat-" + feat.id + "-wave");
+    var levelInput = document.getElementById("feat-" + feat.id + "-level");
+    if (waveInput) waveInput.value = "";
+    if (levelInput) levelInput.value = "";
+  });
+
+  // Feats Amount — Clicks & Stars
+  var clicksAmountInput = document.getElementById("feat-clicks-amount");
+  var clicksLevelInput  = document.getElementById("feat-clicks-level");
+  if (clicksAmountInput) clicksAmountInput.value = "";
+  if (clicksLevelInput)  clicksLevelInput.value  = "";
+
+  var starsAmountInput = document.getElementById("feat-stars-open-amount");
+  var starsLevelInput  = document.getElementById("feat-stars-open-level");
+  if (starsAmountInput) starsAmountInput.value = "";
+  if (starsLevelInput)  starsLevelInput.value  = "";
+
+  updateDisplay();
+}
 // ============================================================
 
 document.getElementById("unit-count").addEventListener("input", buildUnitInputs);
 document.getElementById("max-btn").addEventListener("click", applyMaxValues);
+document.getElementById("reset-btn").addEventListener("click", resetMultipliers);
 
 ["potion-1", "potion-2", "potion-3", "vip", "power-pass", "follow-devs"].concat(RELIC_IDS).forEach(function (id) {
   document.getElementById(id).addEventListener("change", updateDisplay);
@@ -1207,7 +1381,6 @@ document.getElementById("max-btn").addEventListener("click", applyMaxValues);
 
 document.getElementById("awakening").addEventListener("input", updateDisplay);
 document.getElementById("player-level").addEventListener("input", updateDisplay);
-document.getElementById("index-units").addEventListener("input", updateDisplay);
 document.getElementById("index-enemies").addEventListener("input", updateDisplay);
 document.getElementById("quests-completed").addEventListener("input", updateDisplay);
 document.getElementById("stand-select").addEventListener("change", updateDisplay);

@@ -61,6 +61,83 @@ main {
   margin-bottom: 1rem;
 }
 
+/* ── Build Code Import/Export ── */
+.build-code-card h2 {
+  margin-bottom: 0.6rem;
+}
+
+.build-code-row {
+  display: flex;
+  gap: 0.4rem;
+  align-items: center;
+  margin-bottom: 0.4rem;
+}
+
+.build-code-row:last-child {
+  margin-bottom: 0;
+}
+
+.build-code-input {
+  flex: 1;
+  background: #0f0f14;
+  border: 1px solid #333348;
+  border-radius: 6px;
+  color: #fff;
+  font-size: 0.8rem;
+  font-family: "Consolas", "Courier New", monospace;
+  padding: 0.35rem 0.5rem;
+  min-width: 0;
+}
+
+.build-code-input:focus {
+  outline: none;
+  border-color: #e2231a;
+}
+
+.build-code-input[readonly] {
+  color: #b0b0c8;
+  cursor: default;
+}
+
+.generate-btn,
+.import-btn {
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+.copy-btn {
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+.build-code-toast {
+  position: fixed;
+  bottom: 1.5rem;
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  background: #1a1a24;
+  border: 1px solid #3a7a3a;
+  color: #5dc45d;
+  padding: 0.5rem 1.25rem;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s, transform 0.25s;
+  z-index: 1000;
+}
+
+.build-code-toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+.build-code-toast.error {
+  border-color: #e2231a;
+  color: #e2231a;
+}
+
 .section-hint {
   font-size: 0.85rem;
   color: #9a9ab0;
@@ -188,6 +265,39 @@ input[type="text"].unit-power-input:focus {
 }
 
 .max-btn:active {
+  transform: scale(0.97);
+  opacity: 1;
+}
+
+.mult-header-btns {
+  display: flex;
+  gap: 0.4rem;
+  align-items: center;
+}
+
+.reset-btn {
+  background: linear-gradient(135deg, #2a2a3a, #3a3a4e);
+  color: #b0b0c8;
+  border: 1px solid #444460;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  padding: 0.3rem 0.75rem;
+  cursor: pointer;
+  transition: opacity 0.15s, transform 0.1s, box-shadow 0.15s, border-color 0.15s;
+  box-shadow: 0 0 0 transparent;
+  flex-shrink: 0;
+}
+
+.reset-btn:hover {
+  opacity: 0.9;
+  box-shadow: 0 0 10px #6a6a8044;
+  border-color: #6a6a80;
+  transform: scale(1.04);
+}
+
+.reset-btn:active {
   transform: scale(0.97);
   opacity: 1;
 }

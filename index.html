@@ -14,6 +14,19 @@
     </header>
 
     <main>
+      <section class="card card-compact build-code-card">
+        <h2>Build Code</h2>
+        <div class="build-code-row">
+          <button id="generate-code-btn" type="button" class="max-btn generate-btn" title="Generate a code for your current build">GENERATE</button>
+          <input type="text" id="build-code-output" class="build-code-input" placeholder="Your build code will appear here..." readonly>
+          <button id="copy-code-btn" type="button" class="reset-btn copy-btn" title="Copy code to clipboard">COPY</button>
+        </div>
+        <div class="build-code-row">
+          <input type="text" id="build-code-import" class="build-code-input" placeholder="Paste a build code here to import...">
+          <button id="import-code-btn" type="button" class="max-btn import-btn" title="Import build from code">IMPORT</button>
+        </div>
+      </section>
+
       <section class="card">
         <h2>Units (Base Power)</h2>
         <label class="unit-count-label">
@@ -30,7 +43,10 @@
       <section class="card card-compact">
         <div class="mult-header-row">
           <h2>Multipliers</h2>
-          <button id="max-btn" type="button" class="max-btn" title="Fill all fields with max known values">MAX</button>
+          <div class="mult-header-btns">
+            <button id="reset-btn" type="button" class="reset-btn" title="Reset all multiplier fields">RESET</button>
+            <button id="max-btn" type="button" class="max-btn" title="Fill all fields with max known values">MAX</button>
+          </div>
         </div>
         <div class="mult-group mult-group-stacked">
           <span class="mult-label">Awakening</span>
@@ -65,14 +81,10 @@
           <span class="mult-label">Index</span>
           <div class="mult-input-row">
             <label class="mult-field">
-              <span>Units (completed)</span>
-              <input type="number" id="index-units" class="mult-input awakening-input" min="0" step="1" placeholder="0">
-            </label>
-            <label class="mult-field">
               <span>Enemies (completed)</span>
               <input type="number" id="index-enemies" class="mult-input awakening-input" min="0" step="1" placeholder="0">
             </label>
-            <span class="mult-note">15% each · 10% each</span>
+            <span class="mult-note">10% each</span>
           </div>
         </div>
 
@@ -289,7 +301,7 @@
               <input type="text" id="progression-spirit-mult" class="mult-input" placeholder="1.5">
             </label>
             <label class="mult-field">
-              <span>Fate</span>
+              <span>ManaVault</span>
               <input type="text" id="progression-fate-mult" class="mult-input" placeholder="1.5">
             </label>
           </div>
@@ -319,7 +331,7 @@
           <span class="mult-label">Hunter Rank</span>
           <div class="mult-input-row">
             <label class="mult-field">
-              <span>Power mult</span>
+              <span>Power multiplier</span>
               <input type="text" id="hunter-rank-mult" class="mult-input" placeholder="1.5">
             </label>
           </div>
@@ -344,7 +356,7 @@
           <div class="mult-input-row">
             <label class="mult-field">
               <span>Completed</span>
-              <input type="number" id="quests-completed" class="mult-input awakening-input" value="0" min="0" step="1" placeholder="0">
+              <input type="number" id="quests-completed" class="mult-input awakening-input" min="0" step="1" placeholder="0">
             </label>
             <span class="mult-note">Max 6 · 2x each</span>
           </div>
@@ -399,7 +411,6 @@
           <span class="mult-label">Feats</span>
 
           <div class="feats-subsection">
-            <span class="feats-subtitle">Amount</span>
             <div class="feats-table-wrap">
               <table class="feats-table">
                 <thead>
@@ -490,6 +501,8 @@
       </section>
     </main>
   </div>
+
+  <div id="build-toast" class="build-code-toast"></div>
 
   <script src="numbers.js"></script>
   <script src="script.js"></script>
