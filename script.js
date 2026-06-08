@@ -122,7 +122,7 @@ const MAX_CONFIG = {
 
   // ── Skill Tree ─────────────────────────────────────────────
   skillPirateMult:    2.4,
-  skillMonarchMult:   3.4,
+  skillMonarchMult:   3.5,
 
   // ── Progression (all use same value) ───────────────────────
   progressionMult:    7.25,
@@ -1412,7 +1412,7 @@ document.getElementById("form-select").addEventListener("change", updateDisplay)
 
 // Apply safety character limits to all static text fields and clamp unit count in HTML
 document.querySelectorAll('input[type="text"]').forEach(function (el) {
-  el.maxLength = 20;
+  if (!el.classList.contains("build-code-input")) el.maxLength = 20;
 });
 const unitCountEl = document.getElementById("unit-count");
 if (unitCountEl) {
@@ -1425,3 +1425,222 @@ buildFeatsGrid();
 buildLevelMilestoneDots();
 updateDisplay();
 
+// ============================================================
+// BUILD CODE — EXPORT / IMPORT
+// ============================================================
+function showToast(message, isError) {
+  var toast = document.getElementById("build-toast");
+  toast.textContent = message;
+  toast.className = "build-code-toast" + (isError ? " error" : "");
+  // Force reflow so re-adding the class triggers the transition
+  void toast.offsetWidth;
+  toast.classList.add("show");
+  clearTimeout(toast._timer);
+  toast._timer = setTimeout(function () {
+    toast.classList.remove("show");
+  }, 2200);
+}
+
+function exportBuild() {
+  var data = {};
+
+  // Units
+  var unitCount = document.getElementById("unit-count").value;
+  data.uc = unitCount;
+  var unitInputs = document.querySelectorAll(".unit-power-input");
+  var units = [];
+  unitInputs.forEach(function (inp) { units.push(inp.value); });
+  if (units.length > 0) data.up = units;
+
+  // Simple text/number inputs
+  var textIds = [
+    "awakening", "player-level", "level-stats-mult",
+    "index-enemies",
+    "avatar-mult", "title-mult",
+    "sword-1-mult", "sword-2-mult",
+    "accessory-1-mult", "accessory-2-mult", "accessory-3-mult", "accessory-4-mult", "accessory-5-mult",
+    "fighter-1-mult", "fighter-2-mult",
+    "upgrade-trial-mult", "upgrade-tempest-mult", "upgrade-hollow-mult",
+    "skill-pirate-mult", "skill-monarch-mult",
+    "kagune-mult", "grimoire-mult",
+    "hunter-rank-mult",
+    "servant-1-mult", "servant-2-mult",
+    "quests-completed"
+  ].concat(PROGRESSION_IDS);
+
+  var vals = {};
+  textIds.forEach(function (id) {
+    var el = document.getElementById(id);
+    if (el && el.value.trim() !== "") vals[id] = el.value;
+  });
+  data.v = vals;
+
+  // Checkboxes
+  var checkIds = ["potion-1", "potion-2", "potion-3", "vip", "power-pass", "follow-devs"].concat(RELIC_IDS);
+  var checks = {};
+  checkIds.forEach(function (id) {
+    var el = document.getElementById(id);
+    if (el && el.checked) checks[id] = 1;
+  });
+  data.c = checks;
+
+  // Selects
+  data.s = {
+    stand: document.getElementById("stand-select").value,
+    form: document.getElementById("form-select").value
+  };
+
+  // Gachas
+  var gachas = [];
+  GACHAS.forEach(function (gacha, index) {
+    var sel = document.getElementById("gacha-" + index);
+    gachas.push(sel ? sel.value : "0");
+  });
+  data.g = gachas;
+
+  // Feats Wave
+  var featW = {};
+  FEAT_WAVE.forEach(function (feat) {
+    var w = document.getElementById("feat-" + feat.id + "-wave");
+    var l = document.getElementById("feat-" + feat.id + "-level");
+    if (w && w.value.trim() !== "") featW[feat.id + "-w"] = w.value;
+    if (l && l.value.trim() !== "") featW[feat.id + "-l"] = l.value;
+  });
+  data.fw = featW;
+
+  // Feats Amount
+  var featA = {};
+  var caI = document.getElementById("feat-clicks-amount");
+  var clI = document.getElementById("feat-clicks-level");
+  if (caI && caI.value.trim() !== "") featA["ca"] = caI.value;
+  if (clI && clI.value.trim() !== "") featA["cl"] = clI.value;
+  var saI = document.getElementById("feat-stars-open-amount");
+  var slI = document.getElementById("feat-stars-open-level");
+  if (saI && saI.value.trim() !== "") featA["sa"] = saI.value;
+  if (slI && slI.value.trim() !== "") featA["sl"] = slI.value;
+  data.fa = featA;
+
+  return btoa(JSON.stringify(data));
+}
+
+function importBuild(code) {
+  var data;
+  try {
+    data = JSON.parse(atob(code.trim()));
+  } catch (e) {
+    showToast("Invalid build code!", true);
+    return;
+  }
+
+  // Units — set count and rebuild inputs first
+  if (data.uc !== undefined) {
+    document.getElementById("unit-count").value = data.uc;
+    buildUnitInputs();
+  }
+  // Fill unit powers after inputs are built
+  if (data.up && data.up.length > 0) {
+    var unitInputs = document.querySelectorAll(".unit-power-input");
+    data.up.forEach(function (val, i) {
+      if (unitInputs[i]) unitInputs[i].value = val;
+    });
+  }
+
+  // Text/number values
+  if (data.v) {
+    Object.keys(data.v).forEach(function (id) {
+      var el = document.getElementById(id);
+      if (el) el.value = data.v[id];
+    });
+  }
+
+  // Checkboxes — reset all first, then set
+  var checkIds = ["potion-1", "potion-2", "potion-3", "vip", "power-pass", "follow-devs"].concat(RELIC_IDS);
+  checkIds.forEach(function (id) {
+    var el = document.getElementById(id);
+    if (el) el.checked = false;
+  });
+  if (data.c) {
+    Object.keys(data.c).forEach(function (id) {
+      var el = document.getElementById(id);
+      if (el) el.checked = true;
+    });
+  }
+
+  // Selects
+  if (data.s) {
+    document.getElementById("stand-select").value = data.s.stand || "none";
+    document.getElementById("form-select").value = data.s.form || "none";
+  }
+
+  // Gachas
+  if (data.g) {
+    data.g.forEach(function (val, index) {
+      var sel = document.getElementById("gacha-" + index);
+      if (sel) sel.value = val;
+    });
+  }
+
+  // Feats Wave
+  if (data.fw) {
+    FEAT_WAVE.forEach(function (feat) {
+      var w = document.getElementById("feat-" + feat.id + "-wave");
+      var l = document.getElementById("feat-" + feat.id + "-level");
+      if (w) w.value = data.fw[feat.id + "-w"] || "";
+      if (l) l.value = data.fw[feat.id + "-l"] || "";
+    });
+  }
+
+  // Feats Amount
+  if (data.fa) {
+    var caI = document.getElementById("feat-clicks-amount");
+    var clI = document.getElementById("feat-clicks-level");
+    var saI = document.getElementById("feat-stars-open-amount");
+    var slI = document.getElementById("feat-stars-open-level");
+    if (caI) caI.value = data.fa["ca"] || "";
+    if (clI) clI.value = data.fa["cl"] || "";
+    if (saI) saI.value = data.fa["sa"] || "";
+    if (slI) slI.value = data.fa["sl"] || "";
+  }
+
+  updateDisplay();
+  showToast("Build imported!");
+}
+
+document.getElementById("generate-code-btn").addEventListener("click", function () {
+  var code = exportBuild();
+  document.getElementById("build-code-output").value = code;
+  showToast("Build code generated!");
+});
+
+document.getElementById("copy-code-btn").addEventListener("click", function () {
+  var output = document.getElementById("build-code-output");
+  if (!output.value) {
+    showToast("Generate a code first!", true);
+    return;
+  }
+  navigator.clipboard.writeText(output.value).then(function () {
+    showToast("Copied to clipboard!");
+  }, function () {
+    // Fallback: select and copy
+    output.select();
+    document.execCommand("copy");
+    showToast("Copied to clipboard!");
+  });
+});
+
+document.getElementById("import-code-btn").addEventListener("click", function () {
+  var input = document.getElementById("build-code-import");
+  if (!input.value.trim()) {
+    showToast("Paste a build code first!", true);
+    return;
+  }
+  importBuild(input.value);
+});
+
+// Auto-import when pasting into the import field
+document.getElementById("build-code-import").addEventListener("paste", function () {
+  var input = this;
+  setTimeout(function () {
+    if (input.value.trim()) importBuild(input.value);
+  }, 50);
+});

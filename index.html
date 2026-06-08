@@ -15,7 +15,7 @@
 
     <main>
       <section class="card card-compact build-code-card">
-        <h2>Build Code</h2>
+        <h2>Share your build</h2>
         <div class="build-code-row">
           <button id="generate-code-btn" type="button" class="max-btn generate-btn" title="Generate a code for your current build">GENERATE</button>
           <input type="text" id="build-code-output" class="build-code-input" placeholder="Your build code will appear here..." readonly>
@@ -54,7 +54,7 @@
             <div class="mult-input-row">
               <label class="mult-field">
                 <span>Awakening</span>
-                <input type="number" id="awakening" class="mult-input awakening-input" min="1" step="1" placeholder="63">
+                <input type="number" id="awakening" class="mult-input awakening-input" min="1" step="1" placeholder="68">
               </label>
             </div>
             <div class="mult-input-row">
@@ -72,7 +72,7 @@
           <div class="mult-input-row">
             <label class="mult-field">
               <span>Power multiplier</span>
-              <input type="text" id="level-stats-mult" class="mult-input" placeholder="1.5">
+              <input type="text" id="level-stats-mult" class="mult-input" placeholder="4.13x">
             </label>
           </div>
         </div>
@@ -82,7 +82,7 @@
           <div class="mult-input-row">
             <label class="mult-field">
               <span>Enemies (completed)</span>
-              <input type="number" id="index-enemies" class="mult-input awakening-input" min="0" step="1" placeholder="0">
+              <input type="number" id="index-enemies" class="mult-input awakening-input" min="0" step="1" placeholder="16">
             </label>
             <span class="mult-note">10% each</span>
           </div>
@@ -129,7 +129,7 @@
           <div class="mult-input-row">
             <label class="mult-field">
               <span>Power multiplier</span>
-              <input type="text" id="avatar-mult" class="mult-input" placeholder="1.5">
+              <input type="text" id="avatar-mult" class="mult-input" placeholder="101.81Kx">
             </label>
           </div>
         </div>
@@ -139,7 +139,7 @@
           <div class="mult-input-row">
             <label class="mult-field">
               <span>Power multiplier</span>
-              <input type="text" id="title-mult" class="mult-input" placeholder="1.5">
+              <input type="text" id="title-mult" class="mult-input" placeholder="4x">
             </label>
           </div>
         </div>
@@ -149,11 +149,11 @@
           <div class="mult-input-row">
             <label class="mult-field">
               <span>Sword 1</span>
-              <input type="text" id="sword-1-mult" class="mult-input" placeholder="1.5">
+              <input type="text" id="sword-1-mult" class="mult-input" placeholder="26.25x">
             </label>
             <label class="mult-field">
               <span>Sword 2</span>
-              <input type="text" id="sword-2-mult" class="mult-input" placeholder="1.5">
+              <input type="text" id="sword-2-mult" class="mult-input" placeholder="26.25x">
             </label>
           </div>
         </div>
@@ -163,23 +163,23 @@
           <div class="mult-input-row">
             <label class="mult-field">
               <span>Back</span>
-              <input type="text" id="accessory-1-mult" class="mult-input" placeholder="1.5">
+              <input type="text" id="accessory-1-mult" class="mult-input" placeholder="6.56x">
             </label>
             <label class="mult-field">
               <span>Body</span>
-              <input type="text" id="accessory-2-mult" class="mult-input" placeholder="1.5">
+              <input type="text" id="accessory-2-mult" class="mult-input" placeholder="5.06x">
             </label>
             <label class="mult-field">
               <span>Head</span>
-              <input type="text" id="accessory-3-mult" class="mult-input" placeholder="1.5">
+              <input type="text" id="accessory-3-mult" class="mult-input" placeholder="7.5x">
             </label>
             <label class="mult-field">
               <span>Mask</span>
-              <input type="text" id="accessory-4-mult" class="mult-input" placeholder="1.5">
+              <input type="text" id="accessory-4-mult" class="mult-input" placeholder="5.63x">
             </label>
             <label class="mult-field">
               <span>Waist</span>
-              <input type="text" id="accessory-5-mult" class="mult-input" placeholder="1.5">
+              <input type="text" id="accessory-5-mult" class="mult-input" placeholder="6.56x">
             </label>
           </div>
         </div>
@@ -216,11 +216,11 @@
           <div class="mult-input-row">
             <label class="mult-field">
               <span>Fighter 1</span>
-              <input type="text" id="fighter-1-mult" class="mult-input" placeholder="1.5">
+              <input type="text" id="fighter-1-mult" class="mult-input" placeholder="2.5x">
             </label>
             <label class="mult-field">
               <span>Fighter 2</span>
-              <input type="text" id="fighter-2-mult" class="mult-input" placeholder="1.5">
+              <input type="text" id="fighter-2-mult" class="mult-input" placeholder="2.5x">
             </label>
           </div>
         </div>
@@ -230,15 +230,15 @@
           <div class="mult-input-row">
             <label class="mult-field">
               <span>Trial</span>
-              <input type="text" id="upgrade-trial-mult" class="mult-input" placeholder="1.5">
+              <input type="text" id="upgrade-trial-mult" class="mult-input" placeholder="4x">
             </label>
             <label class="mult-field">
               <span>Tempest</span>
-              <input type="text" id="upgrade-tempest-mult" class="mult-input" placeholder="1.5">
+              <input type="text" id="upgrade-tempest-mult" class="mult-input" placeholder="4x">
             </label>
             <label class="mult-field">
               <span>Hollow</span>
-              <input type="text" id="upgrade-hollow-mult" class="mult-input" placeholder="1.5">
+              <input type="text" id="upgrade-hollow-mult" class="mult-input" placeholder="4x">
             </label>
           </div>
         </div>
@@ -248,11 +248,11 @@
           <div class="mult-input-row">
             <label class="mult-field">
               <span>Pirate</span>
-              <input type="text" id="skill-pirate-mult" class="mult-input" placeholder="1.5">
+              <input type="text" id="skill-pirate-mult" class="mult-input" placeholder="2.4x">
             </label>
             <label class="mult-field">
               <span>Monarch</span>
-              <input type="text" id="skill-monarch-mult" class="mult-input" placeholder="1.5">
+              <input type="text" id="skill-monarch-mult" class="mult-input" placeholder="3.4x">
             </label>
           </div>
         </div>
@@ -262,47 +262,47 @@
           <div class="mult-input-row progression-inputs">
             <label class="mult-field">
               <span>Fighting</span>
-              <input type="text" id="progression-fighting-mult" class="mult-input" placeholder="1.5">
+              <input type="text" id="progression-fighting-mult" class="mult-input" placeholder="7.25x">
             </label>
             <label class="mult-field">
               <span>Ki</span>
-              <input type="text" id="progression-ki-mult" class="mult-input" placeholder="1.5">
+              <input type="text" id="progression-ki-mult" class="mult-input" placeholder="7.25x">
             </label>
             <label class="mult-field">
               <span>Demon Lord</span>
-              <input type="text" id="progression-demon-lord-mult" class="mult-input" placeholder="1.5">
+              <input type="text" id="progression-demon-lord-mult" class="mult-input" placeholder="7.25x">
             </label>
             <label class="mult-field">
               <span>Domain</span>
-              <input type="text" id="progression-domain-mult" class="mult-input" placeholder="1.5">
+              <input type="text" id="progression-domain-mult" class="mult-input" placeholder="7.25x">
             </label>
             <label class="mult-field">
               <span>Curse</span>
-              <input type="text" id="progression-curse-mult" class="mult-input" placeholder="1.5">
+              <input type="text" id="progression-curse-mult" class="mult-input" placeholder="7.25x">
             </label>
             <label class="mult-field">
               <span>System</span>
-              <input type="text" id="progression-system-mult" class="mult-input" placeholder="1.5">
+              <input type="text" id="progression-system-mult" class="mult-input" placeholder="7.25x">
             </label>
             <label class="mult-field">
               <span>Hogyoku</span>
-              <input type="text" id="progression-hogyoku-mult" class="mult-input" placeholder="1.5">
+              <input type="text" id="progression-hogyoku-mult" class="mult-input" placeholder="7.25x">
             </label>
             <label class="mult-field">
               <span>Blood</span>
-              <input type="text" id="progression-blood-mult" class="mult-input" placeholder="1.5">
+              <input type="text" id="progression-blood-mult" class="mult-input" placeholder="7.25x">
             </label>
             <label class="mult-field">
               <span>Investigador</span>
-              <input type="text" id="progression-investigador-mult" class="mult-input" placeholder="1.5">
+              <input type="text" id="progression-investigador-mult" class="mult-input" placeholder="7.25x">
             </label>
             <label class="mult-field">
               <span>Spirit</span>
-              <input type="text" id="progression-spirit-mult" class="mult-input" placeholder="1.5">
+              <input type="text" id="progression-spirit-mult" class="mult-input" placeholder="7.25x">
             </label>
             <label class="mult-field">
               <span>ManaVault</span>
-              <input type="text" id="progression-fate-mult" class="mult-input" placeholder="1.5">
+              <input type="text" id="progression-fate-mult" class="mult-input" placeholder="7.25x">
             </label>
           </div>
         </div>
@@ -312,7 +312,7 @@
           <div class="mult-input-row">
             <label class="mult-field">
               <span>Power multiplier</span>
-              <input type="text" id="kagune-mult" class="mult-input" placeholder="1.5">
+              <input type="text" id="kagune-mult" class="mult-input" placeholder="3x">
             </label>
           </div>
         </div>
@@ -322,7 +322,7 @@
           <div class="mult-input-row">
             <label class="mult-field">
               <span>Power multiplier</span>
-              <input type="text" id="grimoire-mult" class="mult-input" placeholder="1.5">
+              <input type="text" id="grimoire-mult" class="mult-input" placeholder="11.5x">
             </label>
           </div>
         </div>
@@ -332,7 +332,7 @@
           <div class="mult-input-row">
             <label class="mult-field">
               <span>Power multiplier</span>
-              <input type="text" id="hunter-rank-mult" class="mult-input" placeholder="1.5">
+              <input type="text" id="hunter-rank-mult" class="mult-input" placeholder="32x">
             </label>
           </div>
         </div>
@@ -342,11 +342,11 @@
           <div class="mult-input-row">
             <label class="mult-field">
               <span>Servant 1</span>
-              <input type="text" id="servant-1-mult" class="mult-input" placeholder="1.5">
+              <input type="text" id="servant-1-mult" class="mult-input" placeholder="7.5x">
             </label>
             <label class="mult-field">
               <span>Servant 2</span>
-              <input type="text" id="servant-2-mult" class="mult-input" placeholder="1.5">
+              <input type="text" id="servant-2-mult" class="mult-input" placeholder="7.5x">
             </label>
           </div>
         </div>
@@ -356,7 +356,7 @@
           <div class="mult-input-row">
             <label class="mult-field">
               <span>Completed</span>
-              <input type="number" id="quests-completed" class="mult-input awakening-input" min="0" step="1" placeholder="0">
+              <input type="number" id="quests-completed" class="mult-input awakening-input" min="0" step="1" placeholder="6">
             </label>
             <span class="mult-note">Max 6 · 2x each</span>
           </div>
