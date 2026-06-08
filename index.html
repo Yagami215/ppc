@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Roblox Power Calculator</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="page">
+    <header>
+      <h1>WORLD FIGHTERS PPC CALC</h1>
+      <p>Made by Yagami</p>
+    </header>
+
+    <main>
+      <section class="card">
+        <h2>Units (Base Power)</h2>
+        <label class="unit-count-label">
+          <span>Max units equiped</span>
+          <input type="number" id="unit-count" min="0" step="1">
+        </label>
+        <div id="unit-inputs" class="unit-inputs"></div>
+        <div class="inline-result">
+          <span>Base Power</span>
+          <strong id="base-power">0</strong>
+        </div>
+      </section>
+
+      <section class="card card-compact">
+        <div class="mult-header-row">
+          <h2>Multipliers</h2>
+          <button id="max-btn" type="button" class="max-btn" title="Fill all fields with max known values">MAX</button>
+        </div>
+        <div class="mult-group mult-group-stacked">
+          <span class="mult-label">Awakening</span>
+          <div class="mult-fields-col">
+            <div class="mult-input-row">
+              <label class="mult-field">
+                <span>Awakening</span>
+                <input type="number" id="awakening" class="mult-input awakening-input" min="1" step="1" placeholder="63">
+              </label>
+            </div>
+            <div class="mult-input-row">
+              <label class="mult-field">
+                <span>Level</span>
+                <input type="number" id="player-level" class="mult-input awakening-input" min="1" step="1" placeholder="125">
+              </label>
+            </div>
+            <div id="level-milestone-dots" class="level-milestone-dots"></div>
+          </div>
+        </div>
+
+        <div class="mult-group">
+          <span class="mult-label">Level Stats</span>
+          <div class="mult-input-row">
+            <label class="mult-field">
+              <span>Power multiplier</span>
+              <input type="text" id="level-stats-mult" class="mult-input" placeholder="1.5">
+            </label>
+          </div>
+        </div>
+
+        <div class="mult-group">
+          <span class="mult-label">Index</span>
+          <div class="mult-input-row">
+            <label class="mult-field">
+              <span>Units (completed)</span>
+              <input type="number" id="index-units" class="mult-input awakening-input" min="0" step="1" placeholder="0">
+            </label>
+            <label class="mult-field">
+              <span>Enemies (completed)</span>
+              <input type="number" id="index-enemies" class="mult-input awakening-input" min="0" step="1" placeholder="0">
+            </label>
+            <span class="mult-note">15% each · 10% each</span>
+          </div>
+        </div>
+
+        <div class="mult-group">
+          <span class="mult-label">Potions</span>
+          <div class="check-row">
+            <label class="check-item">
+              <input type="checkbox" id="potion-1">
+              <span>Tier 1 <em>1.5x</em></span>
+            </label>
+            <label class="check-item">
+              <input type="checkbox" id="potion-2">
+              <span>Tier 2 <em>2x</em></span>
+            </label>
+            <label class="check-item">
+              <input type="checkbox" id="potion-3">
+              <span>Tier 3 <em>2.5x</em></span>
+            </label>
+          </div>
+        </div>
+
+        <div class="mult-group">
+          <span class="mult-label">VIP</span>
+          <div class="check-row">
+            <label class="check-item">
+              <input type="checkbox" id="vip">
+              <span>VIP <em>1.25x</em></span>
+            </label>
+            <label class="check-item">
+              <input type="checkbox" id="power-pass">
+              <span>2x Power Pass <em>2x</em></span>
+            </label>
+            <label class="check-item">
+              <input type="checkbox" id="follow-devs">
+              <span>Follow Devs <em>1.52x</em></span>
+            </label>
+          </div>
+        </div>
+
+        <div class="mult-group">
+          <span class="mult-label">Avatar</span>
+          <div class="mult-input-row">
+            <label class="mult-field">
+              <span>Power multiplier</span>
+              <input type="text" id="avatar-mult" class="mult-input" placeholder="1.5">
+            </label>
+          </div>
+        </div>
+
+        <div class="mult-group">
+          <span class="mult-label">Title</span>
+          <div class="mult-input-row">
+            <label class="mult-field">
+              <span>Power multiplier</span>
+              <input type="text" id="title-mult" class="mult-input" placeholder="1.5">
+            </label>
+          </div>
+        </div>
+
+        <div class="mult-group">
+          <span class="mult-label">Swords</span>
+          <div class="mult-input-row">
+            <label class="mult-field">
+              <span>Sword 1</span>
+              <input type="text" id="sword-1-mult" class="mult-input" placeholder="1.5">
+            </label>
+            <label class="mult-field">
+              <span>Sword 2</span>
+              <input type="text" id="sword-2-mult" class="mult-input" placeholder="1.5">
+            </label>
+          </div>
+        </div>
+
+        <div class="mult-group">
+          <span class="mult-label">Accessories</span>
+          <div class="mult-input-row">
+            <label class="mult-field">
+              <span>Back</span>
+              <input type="text" id="accessory-1-mult" class="mult-input" placeholder="1.5">
+            </label>
+            <label class="mult-field">
+              <span>Body</span>
+              <input type="text" id="accessory-2-mult" class="mult-input" placeholder="1.5">
+            </label>
+            <label class="mult-field">
+              <span>Head</span>
+              <input type="text" id="accessory-3-mult" class="mult-input" placeholder="1.5">
+            </label>
+            <label class="mult-field">
+              <span>Mask</span>
+              <input type="text" id="accessory-4-mult" class="mult-input" placeholder="1.5">
+            </label>
+            <label class="mult-field">
+              <span>Waist</span>
+              <input type="text" id="accessory-5-mult" class="mult-input" placeholder="1.5">
+            </label>
+          </div>
+        </div>
+
+        <div class="mult-group">
+          <span class="mult-label">Stands</span>
+          <div class="mult-input-row">
+            <label class="mult-field stand-field">
+              <select id="stand-select" class="gacha-select stand-select">
+                <option value="none">None</option>
+                <option value="golden">Golden — 3x</option>
+                <option value="platinum">Platinum — 4x</option>
+                <option value="the-world">The World — 6x</option>
+              </select>
+            </label>
+          </div>
+        </div>
+
+        <div class="mult-group">
+          <span class="mult-label">Form</span>
+          <div class="mult-input-row">
+            <label class="mult-field stand-field">
+              <select id="form-select" class="gacha-select stand-select">
+                <option value="none">None</option>
+                <option value="vyzard">Vyzard — active 2.25x</option>
+                <option value="zangetsu">Zangetsu — active 3.5x</option>
+              </select>
+            </label>
+          </div>
+        </div>
+
+        <div class="mult-group">
+          <span class="mult-label">Fighters</span>
+          <div class="mult-input-row">
+            <label class="mult-field">
+              <span>Fighter 1</span>
+              <input type="text" id="fighter-1-mult" class="mult-input" placeholder="1.5">
+            </label>
+            <label class="mult-field">
+              <span>Fighter 2</span>
+              <input type="text" id="fighter-2-mult" class="mult-input" placeholder="1.5">
+            </label>
+          </div>
+        </div>
+
+        <div class="mult-group">
+          <span class="mult-label">Upgrades</span>
+          <div class="mult-input-row">
+            <label class="mult-field">
+              <span>Trial</span>
+              <input type="text" id="upgrade-trial-mult" class="mult-input" placeholder="1.5">
+            </label>
+            <label class="mult-field">
+              <span>Tempest</span>
+              <input type="text" id="upgrade-tempest-mult" class="mult-input" placeholder="1.5">
+            </label>
+            <label class="mult-field">
+              <span>Hollow</span>
+              <input type="text" id="upgrade-hollow-mult" class="mult-input" placeholder="1.5">
+            </label>
+          </div>
+        </div>
+
+        <div class="mult-group">
+          <span class="mult-label">Skill Tree</span>
+          <div class="mult-input-row">
+            <label class="mult-field">
+              <span>Pirate</span>
+              <input type="text" id="skill-pirate-mult" class="mult-input" placeholder="1.5">
+            </label>
+            <label class="mult-field">
+              <span>Monarch</span>
+              <input type="text" id="skill-monarch-mult" class="mult-input" placeholder="1.5">
+            </label>
+          </div>
+        </div>
+
+        <div class="mult-group progression-group">
+          <span class="mult-label">Progression</span>
+          <div class="mult-input-row progression-inputs">
+            <label class="mult-field">
+              <span>Fighting</span>
+              <input type="text" id="progression-fighting-mult" class="mult-input" placeholder="1.5">
+            </label>
+            <label class="mult-field">
+              <span>Ki</span>
+              <input type="text" id="progression-ki-mult" class="mult-input" placeholder="1.5">
+            </label>
+            <label class="mult-field">
+              <span>Demon Lord</span>
+              <input type="text" id="progression-demon-lord-mult" class="mult-input" placeholder="1.5">
+            </label>
+            <label class="mult-field">
+              <span>Domain</span>
+              <input type="text" id="progression-domain-mult" class="mult-input" placeholder="1.5">
+            </label>
+            <label class="mult-field">
+              <span>Curse</span>
+              <input type="text" id="progression-curse-mult" class="mult-input" placeholder="1.5">
+            </label>
+            <label class="mult-field">
+              <span>System</span>
+              <input type="text" id="progression-system-mult" class="mult-input" placeholder="1.5">
+            </label>
+            <label class="mult-field">
+              <span>Hogyoku</span>
+              <input type="text" id="progression-hogyoku-mult" class="mult-input" placeholder="1.5">
+            </label>
+            <label class="mult-field">
+              <span>Blood</span>
+              <input type="text" id="progression-blood-mult" class="mult-input" placeholder="1.5">
+            </label>
+            <label class="mult-field">
+              <span>Investigador</span>
+              <input type="text" id="progression-investigador-mult" class="mult-input" placeholder="1.5">
+            </label>
+            <label class="mult-field">
+              <span>Spirit</span>
+              <input type="text" id="progression-spirit-mult" class="mult-input" placeholder="1.5">
+            </label>
+            <label class="mult-field">
+              <span>Fate</span>
+              <input type="text" id="progression-fate-mult" class="mult-input" placeholder="1.5">
+            </label>
+          </div>
+        </div>
+
+        <div class="mult-group">
+          <span class="mult-label">Kagune</span>
+          <div class="mult-input-row">
+            <label class="mult-field">
+              <span>Power multiplier</span>
+              <input type="text" id="kagune-mult" class="mult-input" placeholder="1.5">
+            </label>
+          </div>
+        </div>
+
+        <div class="mult-group">
+          <span class="mult-label">Grimoire</span>
+          <div class="mult-input-row">
+            <label class="mult-field">
+              <span>Power multiplier</span>
+              <input type="text" id="grimoire-mult" class="mult-input" placeholder="1.5">
+            </label>
+          </div>
+        </div>
+
+        <div class="mult-group">
+          <span class="mult-label">Hunter Rank</span>
+          <div class="mult-input-row">
+            <label class="mult-field">
+              <span>Power mult</span>
+              <input type="text" id="hunter-rank-mult" class="mult-input" placeholder="1.5">
+            </label>
+          </div>
+        </div>
+
+        <div class="mult-group">
+          <span class="mult-label">Servants</span>
+          <div class="mult-input-row">
+            <label class="mult-field">
+              <span>Servant 1</span>
+              <input type="text" id="servant-1-mult" class="mult-input" placeholder="1.5">
+            </label>
+            <label class="mult-field">
+              <span>Servant 2</span>
+              <input type="text" id="servant-2-mult" class="mult-input" placeholder="1.5">
+            </label>
+          </div>
+        </div>
+
+        <div class="mult-group">
+          <span class="mult-label">Quests</span>
+          <div class="mult-input-row">
+            <label class="mult-field">
+              <span>Completed</span>
+              <input type="number" id="quests-completed" class="mult-input awakening-input" value="0" min="0" step="1" placeholder="0">
+            </label>
+            <span class="mult-note">Max 6 · 2x each</span>
+          </div>
+        </div>
+
+        <div class="mult-group">
+          <span class="mult-label">Relics</span>
+          <div class="check-row">
+            <label class="check-item">
+              <input type="checkbox" id="relic-trial-hard">
+              <span>Trial Hard <em>3.5x</em></span>
+            </label>
+            <label class="check-item">
+              <input type="checkbox" id="relic-bizzare">
+              <span>Bizzare <em>3.5x</em></span>
+            </label>
+            <label class="check-item">
+              <input type="checkbox" id="relic-leveling">
+              <span>Leveling <em>3.5x</em></span>
+            </label>
+            <label class="check-item">
+              <input type="checkbox" id="relic-ghoul">
+              <span>Ghoul <em>3.5x</em></span>
+            </label>
+            <label class="check-item">
+              <input type="checkbox" id="relic-slime">
+              <span>Slime <em>3.5x</em></span>
+            </label>
+            <label class="check-item">
+              <input type="checkbox" id="relic-grimoires">
+              <span>Grimoires <em>3.5x</em></span>
+            </label>
+          </div>
+        </div>
+
+        <div class="mult-group gacha-group">
+          <span class="mult-label">Gachas</span>
+          <div class="gacha-table-wrap">
+            <table class="gacha-table">
+              <thead>
+                <tr>
+                  <th>Gacha</th>
+                  <th>Rarity</th>
+                </tr>
+              </thead>
+              <tbody id="gacha-grid"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="mult-group feats-group">
+          <span class="mult-label">Feats</span>
+
+          <div class="feats-subsection">
+            <span class="feats-subtitle">Amount</span>
+            <div class="feats-table-wrap">
+              <table class="feats-table">
+                <thead>
+                  <tr>
+                    <th>Feat</th>
+                    <th>Amount</th>
+                    <th>Level</th>
+                  </tr>
+                </thead>
+                <tbody id="feats-amount-grid"></tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="feats-subsection">
+            <span class="feats-subtitle">Wave &amp; Level</span>
+            <span class="mult-note feats-milestone-note">Standard: Lv 3 @ 15 +10% · Lv 8 @ 40 +15% · Lv 13 @ 65 +20% · Lv 18 @ 90 +25%</span>
+            <span class="mult-note feats-milestone-note">Ghoul Arena: Lv 3 @ 45 +10% · Lv 8 @ 120 +15% · Lv 13 @ 195 +20% · Lv 18 @ 270 +25%</span>
+            <div class="feats-table-wrap">
+              <table class="feats-table">
+                <thead>
+                  <tr>
+                    <th>Feat</th>
+                    <th>Wave</th>
+                    <th>Level</th>
+                  </tr>
+                </thead>
+                <tbody id="feats-wave-grid"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div class="mult-summary">
+          <div class="mult-summary-row">
+            <span>Buff Multiplier</span>
+            <strong id="buff-mult">1x</strong>
+          </div>
+          <div class="mult-summary-row">
+            <span>% Multiplier</span>
+            <strong id="percent-mult">1x</strong>
+          </div>
+          <div class="mult-summary-row">
+            <span>Gacha Multiplier</span>
+            <strong id="gacha-mult">1x</strong>
+          </div>
+        </div>
+      </section>
+
+      <section class="card result-card">
+        <h2>YOUR PPC (power per click)</h2>
+        <div class="power-display dual-power">
+          <div class="power-block">
+            <span class="power-label">no form</span>
+            <span id="passive-power" class="power-value power-value-passive">0</span>
+          </div>
+          <div class="power-block">
+            <span class="power-label">with form</span>
+            <span id="active-power" class="power-value">0</span>
+          </div>
+        </div>
+        <div class="breakdown">
+          <div class="breakdown-row">
+            <span>Base Power</span>
+            <span id="breakdown-base">0</span>
+          </div>
+          <div class="breakdown-row">
+            <span>After Buffs</span>
+            <span id="breakdown-buffs">0</span>
+          </div>
+          <div class="breakdown-row">
+            <span>After % Bonus</span>
+            <span id="breakdown-percent">0</span>
+          </div>
+          <div class="breakdown-row">
+            <span>After Gacha</span>
+            <span id="breakdown-gacha">0</span>
+          </div>
+          <div class="breakdown-row highlight">
+            <span>Passive Power</span>
+            <span id="breakdown-passive">0</span>
+          </div>
+          <div class="breakdown-row highlight">
+            <span>Active Power</span>
+            <span id="breakdown-active">0</span>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="numbers.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
