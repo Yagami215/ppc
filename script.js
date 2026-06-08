@@ -1239,9 +1239,9 @@ function applyMaxValues() {
   if (MAX_CONFIG.featsMax) {
     FEAT_WAVE.forEach(function (feat) {
       var milestones = getFeatMilestones(feat);
-      var top = milestones[milestones.length - 1];
-      // Cap wave at feat's own maxWave (e.g. easy-trial max is 50, not 90)
-      var cappedWave = Math.min(top.wave, feat.maxWave);
+      // Use 300 for ghoul arena, 100 for everything else, capped by feat's maxWave
+      var targetWave = feat.id === "ghoul-arena" ? 300 : 100;
+      var cappedWave = Math.min(targetWave, feat.maxWave);
       var actualLevel = waveToFeatLevel(cappedWave, milestones);
       var waveInput = document.getElementById("feat-" + feat.id + "-wave");
       var levelInput = document.getElementById("feat-" + feat.id + "-level");
