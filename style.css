@@ -473,6 +473,35 @@ input[type="text"].unit-power-input:focus {
   line-height: 1;
 }
 
+.hr-row {
+  align-items: stretch;
+}
+
+.hr-step-btn {
+  background: #0f0f14;
+  border: 1px solid #333348;
+  border-radius: 6px;
+  color: #fff;
+  font-size: 1.1rem;
+  font-weight: 700;
+  width: 2.2rem;
+  flex-shrink: 0;
+  cursor: pointer;
+  transition: all 0.15s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hr-step-btn:hover {
+  border-color: #e2231a;
+  background: #1a1020;
+}
+
+.hr-step-btn:active {
+  background: #e2231a;
+}
+
 .mult-group-stacked {
   align-items: flex-start;
 }
