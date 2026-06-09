@@ -1428,22 +1428,23 @@ buildLevelMilestoneDots();
 updateDisplay();
 
 // Hunter Rank step buttons (+/−)
-var HR_STEPS = ["", "2x", "4x", "8x", "16x", "32x"];
+var HR_STEPS = ["", "2", "4", "8", "16", "32"];
 
-function hrStep(dir) {
+function hrStep(e, dir) {
+  e.preventDefault(); // Prevent label click behavior
   var input = document.getElementById("hunter-rank-mult");
-  var cur = input.value.trim();
+  var cur = input.value.replace(/x$/i, "").trim();
   var idx = HR_STEPS.indexOf(cur);
   if (idx === -1) idx = 0; // unknown value → treat as none
   var next = idx + dir;
   if (next < 0) next = 0;
   if (next >= HR_STEPS.length) next = HR_STEPS.length - 1;
-  input.value = HR_STEPS[next];
+  input.value = HR_STEPS[next] ? HR_STEPS[next] + "x" : "";
   updateDisplay();
 }
 
-document.getElementById("hr-dec").addEventListener("click", function () { hrStep(-1); });
-document.getElementById("hr-inc").addEventListener("click", function () { hrStep(1); });
+document.getElementById("hr-dec").addEventListener("click", function (e) { hrStep(e, -1); });
+document.getElementById("hr-inc").addEventListener("click", function (e) { hrStep(e, 1); });
 
 // ============================================================
 // BUILD CODE — EXPORT / IMPORT (compact pipe-delimited format)
