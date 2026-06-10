@@ -39,13 +39,13 @@ const RACE_GACHA_MULTS = [1.05, 1.1, 1.15, 1.25, 1.5, 2, 10];
 const NONE_RARITY = { name: "None", mult: 1, isNone: true };
 const DIVINE_RARITY = { name: "Divine", mult: 15 };
 
-function buildGachaRarities(multTable, includeDivine) {
+function buildGachaRarities(multTable, includeDivine, customDivineMult) {
   const rarities = [NONE_RARITY];
   RARITY_NAMES.forEach(function (name, index) {
     rarities.push({ name: name, mult: multTable[index] });
   });
   if (includeDivine) {
-    rarities.push(DIVINE_RARITY);
+    rarities.push({ name: "Divine", mult: customDivineMult || DIVINE_RARITY.mult });
   }
   return rarities;
 }
@@ -56,7 +56,7 @@ const GACHAS = [
   { name: "Haki",             rarities: buildGachaRarities(DEFAULT_GACHA_MULTS, true) },
   { name: "Race",             rarities: buildGachaRarities(RACE_GACHA_MULTS, true) },
   { name: "Transformation",   rarities: buildGachaRarities(LOW_GACHA_MULTS) },
-  { name: "Dragon Power",     rarities: buildGachaRarities(LOW_GACHA_MULTS) },
+  { name: "Dragon Power",     rarities: buildGachaRarities(LOW_GACHA_MULTS, true, 8) },
   { name: "Slime Power",      rarities: buildGachaRarities(DEFAULT_GACHA_MULTS) },
   { name: "Cursed Technique", rarities: buildGachaRarities(DEFAULT_GACHA_MULTS) },
   { name: "Cursed Spirit",    rarities: buildGachaRarities(DEFAULT_GACHA_MULTS) },
@@ -103,8 +103,8 @@ const MAX_CONFIG = {
   titleMult:          4,
 
   // ── Swords ─────────────────────────────────────────────────
-  sword1Mult:         26.25,
-  sword2Mult:         26.25,
+  sword1Mult:         45,
+  sword2Mult:         45,
 
   // ── Accessories (Back, Body, Head, Mask, Waist) ────────────
   accessory1Mult:     6.56,
@@ -117,8 +117,9 @@ const MAX_CONFIG = {
   fighter1Mult:       2.5,
   fighter2Mult:       2.5,
 
-  // ── Upgrades (Trial, Tempest, Hollow) ──────────────────────
+  // ── Upgrades (Trial, Dragon, Tempest, Hollow) ──────────────────────────────
   upgradeTrialMult:   4,
+  upgradeDragonMult:  4,
   upgradeTempestMult: 4,
   upgradeHollowMult:  4,
 
@@ -174,6 +175,7 @@ const FEAT_WAVE = [
   { id: "medium-trial",     name: "Medium Trial",     maxWave: 100 },
   { id: "hard-trial",       name: "Hard Trial",       maxWave: 100 },
   { id: "dragon-defense",   name: "Dragon Defense",   maxWave: 100 },
+  { id: "dragon-defense-hard", name: "Dragon Defense Hard", maxWave: 50 },
   { id: "tempest-invasion", name: "Tempest Invasion", maxWave: 100 },
   { id: "tower",            name: "Tower",            maxWave: 100 },
   { id: "hollow-defense",   name: "Hollow Defense",   maxWave: 100 },
@@ -625,6 +627,7 @@ function getBuffMultiplier() {
   mult *= parseMultiplier(document.getElementById("fighter-1-mult").value);
   mult *= parseMultiplier(document.getElementById("fighter-2-mult").value);
   mult *= parseMultiplier(document.getElementById("upgrade-trial-mult").value);
+  mult *= parseMultiplier(document.getElementById("upgrade-dragon-mult").value);
   mult *= parseMultiplier(document.getElementById("upgrade-tempest-mult").value);
   mult *= parseMultiplier(document.getElementById("upgrade-hollow-mult").value);
   mult *= parseMultiplier(document.getElementById("skill-pirate-mult").value);
@@ -1182,6 +1185,7 @@ function applyMaxValues() {
 
   // Upgrades
   document.getElementById("upgrade-trial-mult").value = formatMultiplier(MAX_CONFIG.upgradeTrialMult);
+  document.getElementById("upgrade-dragon-mult").value = formatMultiplier(MAX_CONFIG.upgradeDragonMult);
   document.getElementById("upgrade-tempest-mult").value = formatMultiplier(MAX_CONFIG.upgradeTempestMult);
   document.getElementById("upgrade-hollow-mult").value = formatMultiplier(MAX_CONFIG.upgradeHollowMult);
 
@@ -1313,6 +1317,7 @@ function resetMultipliers() {
 
   // Upgrades
   document.getElementById("upgrade-trial-mult").value = "";
+  document.getElementById("upgrade-dragon-mult").value = "";
   document.getElementById("upgrade-tempest-mult").value = "";
   document.getElementById("upgrade-hollow-mult").value = "";
 
@@ -1391,7 +1396,7 @@ document.getElementById("form-select").addEventListener("change", updateDisplay)
 ["avatar-mult", "title-mult", "sword-1-mult", "sword-2-mult", "level-stats-mult",
   "accessory-1-mult", "accessory-2-mult", "accessory-3-mult", "accessory-4-mult", "accessory-5-mult",
   "fighter-1-mult", "fighter-2-mult",
-  "upgrade-trial-mult", "upgrade-tempest-mult", "upgrade-hollow-mult",
+  "upgrade-trial-mult", "upgrade-dragon-mult", "upgrade-tempest-mult", "upgrade-hollow-mult",
   "skill-pirate-mult", "skill-monarch-mult",
   "kagune-mult", "grimoire-mult",
   "hunter-rank-mult", "servant-1-mult", "servant-2-mult"
@@ -1467,7 +1472,7 @@ var _F = [
   "avatar-mult", "title-mult", "sword-1-mult", "sword-2-mult",
   "accessory-1-mult", "accessory-2-mult", "accessory-3-mult", "accessory-4-mult", "accessory-5-mult",
   "fighter-1-mult", "fighter-2-mult",
-  "upgrade-trial-mult", "upgrade-tempest-mult", "upgrade-hollow-mult",
+  "upgrade-trial-mult", "upgrade-dragon-mult", "upgrade-tempest-mult", "upgrade-hollow-mult",
   "skill-pirate-mult", "skill-monarch-mult",
   "kagune-mult", "grimoire-mult", "hunter-rank-mult",
   "servant-1-mult", "servant-2-mult", "quests-completed"
