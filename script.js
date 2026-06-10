@@ -142,8 +142,8 @@ const MAX_CONFIG = {
   hunterRankMult:     32,
 
   // ── Servants ───────────────────────────────────────────────
-  servant1Mult:       7.5,
-  servant2Mult:       7.5,
+  servant1Mult:       8.5,
+  servant2Mult:       8.5,
 
   // ── Quests ─────────────────────────────────────────────────
   questsCompleted:    6,
