@@ -244,7 +244,7 @@ const STARS_OPEN_MILESTONES = [
   { stars: 5000, bonus: 10 },
   { stars: 25000, bonus: 10 },
   { stars: 100000, bonus: 10 },
-  { clicks: 400000, stars: 400000, bonus: 10 }, // standard keys for stars is stars, adding clicks as fallback just in case
+  { clicks: 400000, stars: 400000, bonus: 10 }, 
   { stars: 1500000, bonus: 10 },
   { stars: 5000000, bonus: 15 },
   { stars: 10000000, bonus: 15 },
