@@ -78,9 +78,9 @@ const STANDS = {
 };
 
 const FORMS = {
-  none: { active: 1 },
-  vyzard: { active: 2.25 },
-  zangetsu: { active: 3.5 },
+  none: [1, 1, 1, 1, 1, 1, 1, 1],
+  vyzard: [1, 1.25, 1.5, 1.75, 2, 2.25, 2.25, 2.25],
+  zangetsu: [1.75, 2, 2.25, 2.5, 2.75, 3, 3.25, 3.5],
 };
 
 const HUNTER_RANKS = [1, 2, 4, 8, 16, 32];
@@ -117,7 +117,12 @@ const MAX_CONFIG = {
   fighter1Mult:       2.5,
   fighter2Mult:       2.5,
 
-  // ── Upgrades (Trial, Dragon, Tempest, Hollow) ──────────────────────────────
+  // ── Stand & Form ───────────────────────────────────────────
+  standSelect: "the-world",
+  formSelect:  "zangetsu",
+  formLevelSelect: "8",
+
+  // ── Upgrades ───────────────────────────────────────────────────
   upgradeTrialMult:   4,
   upgradeDragonMult:  4,
   upgradeTempestMult: 4,
@@ -133,10 +138,6 @@ const MAX_CONFIG = {
   // ── Kagune & Grimoire (set to value, or true = leave empty) ─
   kagunemult:         3,
   grimoireMult:       12,
-
-  // ── Stand & Form (best = highest multiplier) ────────────────
-  standSelect:        "the-world",   // golden | platinum | the-world
-  formSelect:         "zangetsu",    // none | vyzard | zangetsu
 
   // ── Hunter Rank ────────────────────────────────────────────────────
   hunterRankMult:     32,
@@ -303,9 +304,10 @@ function getSavedUnitValues() {
 }
 
 function getBasePower() {
-  return getUnitPowers().reduce(function (sum, power) {
-    return sum + power;
+  let sum = getUnitPowers().reduce(function (s, power) {
+    return s + power;
   }, 0);
+  return Math.max(1, sum);
 }
 
 function buildUnitInputs() {
@@ -597,7 +599,9 @@ function getStandData() {
 
 function getFormData() {
   const key = document.getElementById("form-select").value;
-  return FORMS[key] || FORMS.none;
+  const level = parseInt(document.getElementById("form-level-select").value) || 1;
+  const arr = FORMS[key] || FORMS.none;
+  return { active: arr[level - 1] || 1 };
 }
 
 function getBuffMultiplier() {
@@ -1139,7 +1143,6 @@ function buildGachaGrid() {
         : rarity.name + " " + formatMultiplier(rarity.mult);
       const rName = rarity.name.toLowerCase();
       const optionColor = RARITY_COLORS[rName] || "#ffffff";
-      option.style.color = optionColor;
       option.style.backgroundColor = "#0f0f14";
       select.appendChild(option);
     });
@@ -1207,8 +1210,9 @@ function applyMaxValues() {
   document.getElementById("grimoire-mult").value = formatMultiplier(MAX_CONFIG.grimoireMult);
 
   // Stand & Form
-  document.getElementById("stand-select").value = MAX_CONFIG.standSelect || "none";
-  document.getElementById("form-select").value  = MAX_CONFIG.formSelect  || "none";
+  document.getElementById("stand-select").value = MAX_CONFIG.standSelect;
+  document.getElementById("form-select").value = MAX_CONFIG.formSelect;
+  document.getElementById("form-level-select").value = MAX_CONFIG.formLevelSelect;
 
   // Hunter Rank
   document.getElementById("hunter-rank-mult").value = formatMultiplier(MAX_CONFIG.hunterRankMult);
@@ -1310,6 +1314,7 @@ function resetMultipliers() {
   // Stand & Form
   document.getElementById("stand-select").value = "none";
   document.getElementById("form-select").value = "none";
+  document.getElementById("form-level-select").value = "1";
 
   // Fighters
   document.getElementById("fighter-1-mult").value = "";
@@ -1392,6 +1397,7 @@ document.getElementById("index-enemies").addEventListener("input", updateDisplay
 document.getElementById("quests-completed").addEventListener("input", updateDisplay);
 document.getElementById("stand-select").addEventListener("change", updateDisplay);
 document.getElementById("form-select").addEventListener("change", updateDisplay);
+document.getElementById("form-level-select").addEventListener("change", updateDisplay);
 
 ["avatar-mult", "title-mult", "sword-1-mult", "sword-2-mult", "level-stats-mult",
   "accessory-1-mult", "accessory-2-mult", "accessory-3-mult", "accessory-4-mult", "accessory-5-mult",
@@ -1539,6 +1545,8 @@ function exportBuild() {
   p.push(_v(document.getElementById("feat-stars-open-amount")));
   p.push(_v(document.getElementById("feat-stars-open-level")));
 
+  p.push(document.getElementById("form-level-select").value || "1");
+
   // Trim trailing empty segments
   while (p.length > 0 && p[p.length - 1] === "") p.pop();
 
@@ -1638,6 +1646,10 @@ function importBuild(code) {
   if (cl) cl.value = g(off + 1);
   if (sa) sa.value = g(off + 2);
   if (sl) sl.value = g(off + 3);
+  
+  if (g(off + 4)) {
+    document.getElementById("form-level-select").value = g(off + 4);
+  }
 
   updateDisplay();
   showToast("Build imported!");
