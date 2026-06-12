@@ -156,6 +156,7 @@ const MAX_CONFIG = {
   vip:                true,
   powerPass:          true,
   followDevs:         true,
+  ugc:                true,
   relicsAll:          true,   // check all relics
 
   // ── Gachas (true = select max rarity on every gacha) ───────
@@ -244,7 +245,7 @@ const STARS_OPEN_MILESTONES = [
   { stars: 5000, bonus: 10 },
   { stars: 25000, bonus: 10 },
   { stars: 100000, bonus: 10 },
-  { clicks: 400000, stars: 400000, bonus: 10 }, 
+  { clicks: 400000, stars: 400000, bonus: 10 }, // standard keys for stars is stars, adding clicks as fallback just in case
   { stars: 1500000, bonus: 10 },
   { stars: 5000000, bonus: 15 },
   { stars: 10000000, bonus: 15 },
@@ -617,6 +618,7 @@ function getBuffMultiplier() {
   if (document.getElementById("vip").checked) mult *= 1.25;
   if (document.getElementById("power-pass").checked) mult *= 2;
   if (document.getElementById("follow-devs").checked) mult *= 1.52;
+  if (document.getElementById("ugc").checked) mult *= 1.1;
 
   mult *= parseMultiplier(document.getElementById("avatar-mult").value);
   mult *= parseMultiplier(document.getElementById("title-mult").value);
@@ -1143,6 +1145,7 @@ function buildGachaGrid() {
         : rarity.name + " " + formatMultiplier(rarity.mult);
       const rName = rarity.name.toLowerCase();
       const optionColor = RARITY_COLORS[rName] || "#ffffff";
+      option.style.color = optionColor;
       option.style.backgroundColor = "#0f0f14";
       select.appendChild(option);
     });
@@ -1231,6 +1234,7 @@ function applyMaxValues() {
   document.getElementById("vip").checked = MAX_CONFIG.vip;
   document.getElementById("power-pass").checked = MAX_CONFIG.powerPass;
   document.getElementById("follow-devs").checked = MAX_CONFIG.followDevs;
+  document.getElementById("ugc").checked = MAX_CONFIG.ugc;
 
   // Relics
   RELIC_IDS.forEach(function (id) {
@@ -1297,6 +1301,7 @@ function resetMultipliers() {
   document.getElementById("vip").checked = false;
   document.getElementById("power-pass").checked = false;
   document.getElementById("follow-devs").checked = false;
+  document.getElementById("ugc").checked = false;
 
   // Avatar & Title
   document.getElementById("avatar-mult").value = "";
@@ -1387,7 +1392,7 @@ document.getElementById("unit-count").addEventListener("input", buildUnitInputs)
 document.getElementById("max-btn").addEventListener("click", applyMaxValues);
 document.getElementById("reset-btn").addEventListener("click", resetMultipliers);
 
-["potion-1", "potion-2", "potion-3", "vip", "power-pass", "follow-devs"].concat(RELIC_IDS).forEach(function (id) {
+["potion-1", "potion-2", "potion-3", "vip", "power-pass", "follow-devs", "ugc"].concat(RELIC_IDS).forEach(function (id) {
   document.getElementById(id).addEventListener("change", updateDisplay);
 });
 
@@ -1484,7 +1489,7 @@ var _F = [
   "servant-1-mult", "servant-2-mult", "quests-completed"
 ].concat(PROGRESSION_IDS);
 
-var _C = ["potion-1", "potion-2", "potion-3", "vip", "power-pass", "follow-devs"].concat(RELIC_IDS);
+var _C = ["potion-1", "potion-2", "potion-3", "vip", "power-pass", "follow-devs"].concat(RELIC_IDS).concat(["ugc"]);
 var _SK = ["none", "golden", "platinum", "the-world"];
 var _FK = ["none", "vyzard", "zangetsu"];
 
