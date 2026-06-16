@@ -68,6 +68,7 @@ const GACHAS = [
   { name: "CCG",              rarities: buildGachaRarities(DEFAULT_GACHA_MULTS) },
   { name: "Magic Career",     rarities: buildGachaRarities(DEFAULT_GACHA_MULTS) },
   { name: "PowerFull Class",             rarities: buildGachaRarities(DEFAULT_GACHA_MULTS) },
+  { name: "Eclipse Relic",    rarities: buildGachaRarities(DEFAULT_GACHA_MULTS) },
 ];
 
 const STANDS = {
@@ -91,25 +92,25 @@ const HUNTER_RANKS = [1, 2, 4, 8, 16, 32];
 // ============================================================
 const MAX_CONFIG = {
   // ── Awakening & Level ──────────────────────────────────────
-  awakening:          68,
-  playerLevel:        125,
-  levelStatsMult:     4.13,
+  awakening:          73,
+  playerLevel:        250,
+  levelStatsMult:     27.24,
 
   // ── Index ──────────────────────────────────────────────────
-  indexEnemies:       16,
+  indexEnemies:       17,
 
   // ── Avatar & Title ─────────────────────────────────────────
-  avatarMult:         101810,   // 101.81K
+  avatarMult:         213560,   // 213.56K
   titleMult:          4,
 
   // ── Swords ─────────────────────────────────────────────────
-  sword1Mult:         45,
-  sword2Mult:         45,
+  sword1Mult:         75,
+  sword2Mult:         75,
 
   // ── Accessories (Back, Body, Head, Mask, Waist) ────────────
   accessory1Mult:     6.56,
-  accessory2Mult:     5.06,
-  accessory3Mult:     7.5,
+  accessory2Mult:     8.44,
+  accessory3Mult:     9.38,
   accessory4Mult:     5.63,
   accessory5Mult:     6.56,
 
@@ -137,7 +138,7 @@ const MAX_CONFIG = {
 
   // ── Kagune & Grimoire (set to value, or true = leave empty) ─
   kagunemult:         3,
-  grimoireMult:       12,
+  grimoireMult:       12.04,
 
   // ── Hunter Rank ────────────────────────────────────────────────────
   hunterRankMult:     32,
@@ -157,6 +158,8 @@ const MAX_CONFIG = {
   powerPass:          true,
   followDevs:         true,
   ugc:                true,
+  extraReward1:       true,
+  extraReward2:       true,
   relicsAll:          true,   // check all relics
 
   // ── Gachas (true = select max rarity on every gacha) ───────
@@ -183,6 +186,7 @@ const FEAT_WAVE = [
   { id: "hollow-defense",   name: "Hollow Defense",   maxWave: 100 },
   { id: "ghoul-arena",      name: "Ghoul Arena",      maxWave: 1000 },
   { id: "magic-tower",      name: "Magic Tower",      maxWave: 100 },
+  { id: "eclipse-invasion", name: "Eclipse Invasion", maxWave: 100 },
 ];
 
 const FEAT_STANDARD_MILESTONES = [
@@ -440,6 +444,11 @@ const AWAKENING_MULTS = [
   36.96e18,       // 66
   73.92e18,       // 67
   147.84e18,      // 68
+  295.68e18,      // 69
+  591.36e18,      // 70
+  1.18e21,        // 71
+  2.36e21,        // 72
+  4.73e21,        // 73
 ];
 
 function getAwakeningMultiplier() {
@@ -619,6 +628,8 @@ function getBuffMultiplier() {
   if (document.getElementById("power-pass").checked) mult *= 2;
   if (document.getElementById("follow-devs").checked) mult *= 1.52;
   if (document.getElementById("ugc").checked) mult *= 1.1;
+  if (document.getElementById("extra-reward-1").checked) mult *= 1.2;
+  if (document.getElementById("extra-reward-2").checked) mult *= 1.25;
 
   mult *= parseMultiplier(document.getElementById("avatar-mult").value);
   mult *= parseMultiplier(document.getElementById("title-mult").value);
@@ -1235,6 +1246,8 @@ function applyMaxValues() {
   document.getElementById("power-pass").checked = MAX_CONFIG.powerPass;
   document.getElementById("follow-devs").checked = MAX_CONFIG.followDevs;
   document.getElementById("ugc").checked = MAX_CONFIG.ugc;
+  document.getElementById("extra-reward-1").checked = MAX_CONFIG.extraReward1;
+  document.getElementById("extra-reward-2").checked = MAX_CONFIG.extraReward2;
 
   // Relics
   RELIC_IDS.forEach(function (id) {
@@ -1302,6 +1315,8 @@ function resetMultipliers() {
   document.getElementById("power-pass").checked = false;
   document.getElementById("follow-devs").checked = false;
   document.getElementById("ugc").checked = false;
+  document.getElementById("extra-reward-1").checked = false;
+  document.getElementById("extra-reward-2").checked = false;
 
   // Avatar & Title
   document.getElementById("avatar-mult").value = "";
@@ -1392,7 +1407,7 @@ document.getElementById("unit-count").addEventListener("input", buildUnitInputs)
 document.getElementById("max-btn").addEventListener("click", applyMaxValues);
 document.getElementById("reset-btn").addEventListener("click", resetMultipliers);
 
-["potion-1", "potion-2", "potion-3", "vip", "power-pass", "follow-devs", "ugc"].concat(RELIC_IDS).forEach(function (id) {
+["potion-1", "potion-2", "potion-3", "vip", "power-pass", "follow-devs", "ugc", "extra-reward-1", "extra-reward-2"].concat(RELIC_IDS).forEach(function (id) {
   document.getElementById(id).addEventListener("change", updateDisplay);
 });
 
@@ -1489,7 +1504,7 @@ var _F = [
   "servant-1-mult", "servant-2-mult", "quests-completed"
 ].concat(PROGRESSION_IDS);
 
-var _C = ["potion-1", "potion-2", "potion-3", "vip", "power-pass", "follow-devs"].concat(RELIC_IDS).concat(["ugc"]);
+var _C = ["potion-1", "potion-2", "potion-3", "vip", "power-pass", "follow-devs"].concat(RELIC_IDS).concat(["ugc", "extra-reward-1", "extra-reward-2"]);
 var _SK = ["none", "golden", "platinum", "the-world"];
 var _FK = ["none", "vyzard", "zangetsu"];
 
