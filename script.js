@@ -57,7 +57,7 @@ const GACHAS = [
   { name: "Race",             rarities: buildGachaRarities(RACE_GACHA_MULTS, true) },
   { name: "Transformation",   rarities: buildGachaRarities(LOW_GACHA_MULTS) },
   { name: "Dragon Power",     rarities: buildGachaRarities(LOW_GACHA_MULTS, true, 8) },
-  { name: "Slime Power",      rarities: buildGachaRarities(DEFAULT_GACHA_MULTS) },
+  { name: "Slime Power",      rarities: buildGachaRarities(DEFAULT_GACHA_MULTS, true) },
   { name: "Cursed Technique", rarities: buildGachaRarities(DEFAULT_GACHA_MULTS) },
   { name: "Cursed Spirit",    rarities: buildGachaRarities(DEFAULT_GACHA_MULTS) },
   { name: "Hunter",           rarities: buildGachaRarities(DEFAULT_GACHA_MULTS) },
@@ -69,6 +69,7 @@ const GACHAS = [
   { name: "Magic Career",     rarities: buildGachaRarities(DEFAULT_GACHA_MULTS) },
   { name: "PowerFull Class",             rarities: buildGachaRarities(DEFAULT_GACHA_MULTS) },
   { name: "Eclipse Relic",    rarities: buildGachaRarities(DEFAULT_GACHA_MULTS) },
+  { name: "Evolution Form",   rarities: buildGachaRarities(DEFAULT_GACHA_MULTS) },
 ];
 
 const STANDS = {
@@ -120,6 +121,7 @@ const MAX_CONFIG = {
 
   // ── Stand & Form ───────────────────────────────────────────
   standSelect: "the-world",
+  stand2Select: "the-world",
   formSelect:  "zangetsu",
   formLevelSelect: "8",
 
@@ -154,6 +156,7 @@ const MAX_CONFIG = {
   potion1:            true,
   potion2:            true,
   potion3:            true,
+  potion4:            true,
   vip:                true,
   powerPass:          true,
   followDevs:         true,
@@ -288,6 +291,7 @@ const PROGRESSION_IDS = [
   "progression-investigador-mult",
   "progression-spirit-mult",
   "progression-fate-mult",
+  "progression-armor-mult",
 ];
 
 function getUnitPowers() {
@@ -607,6 +611,11 @@ function getStandData() {
   return STANDS[key] || STANDS.none;
 }
 
+function getStand2Data() {
+  const key = document.getElementById("stand-2-select").value;
+  return STANDS[key] || STANDS.none;
+}
+
 function getFormData() {
   const key = document.getElementById("form-select").value;
   const level = parseInt(document.getElementById("form-level-select").value) || 1;
@@ -624,6 +633,7 @@ function getBuffMultiplier() {
   if (document.getElementById("potion-1").checked) mult *= 1.5;
   if (document.getElementById("potion-2").checked) mult *= 2;
   if (document.getElementById("potion-3").checked) mult *= 2.5;
+  if (document.getElementById("potion-4").checked) mult *= 3;
   if (document.getElementById("vip").checked) mult *= 1.25;
   if (document.getElementById("power-pass").checked) mult *= 2;
   if (document.getElementById("follow-devs").checked) mult *= 1.52;
@@ -641,6 +651,7 @@ function getBuffMultiplier() {
   }
 
   mult *= getStandData().passive;
+  mult *= getStand2Data().passive;
   mult *= parseMultiplier(document.getElementById("fighter-1-mult").value);
   mult *= parseMultiplier(document.getElementById("fighter-2-mult").value);
   mult *= parseMultiplier(document.getElementById("upgrade-trial-mult").value);
@@ -1225,6 +1236,7 @@ function applyMaxValues() {
 
   // Stand & Form
   document.getElementById("stand-select").value = MAX_CONFIG.standSelect;
+  document.getElementById("stand-2-select").value = MAX_CONFIG.stand2Select;
   document.getElementById("form-select").value = MAX_CONFIG.formSelect;
   document.getElementById("form-level-select").value = MAX_CONFIG.formLevelSelect;
 
@@ -1242,6 +1254,7 @@ function applyMaxValues() {
   document.getElementById("potion-1").checked = MAX_CONFIG.potion1;
   document.getElementById("potion-2").checked = MAX_CONFIG.potion2;
   document.getElementById("potion-3").checked = MAX_CONFIG.potion3;
+  document.getElementById("potion-4").checked = MAX_CONFIG.potion4;
   document.getElementById("vip").checked = MAX_CONFIG.vip;
   document.getElementById("power-pass").checked = MAX_CONFIG.powerPass;
   document.getElementById("follow-devs").checked = MAX_CONFIG.followDevs;
@@ -1311,6 +1324,7 @@ function resetMultipliers() {
   document.getElementById("potion-1").checked = false;
   document.getElementById("potion-2").checked = false;
   document.getElementById("potion-3").checked = false;
+  document.getElementById("potion-4").checked = false;
   document.getElementById("vip").checked = false;
   document.getElementById("power-pass").checked = false;
   document.getElementById("follow-devs").checked = false;
@@ -1333,6 +1347,7 @@ function resetMultipliers() {
 
   // Stand & Form
   document.getElementById("stand-select").value = "none";
+  document.getElementById("stand-2-select").value = "none";
   document.getElementById("form-select").value = "none";
   document.getElementById("form-level-select").value = "1";
 
@@ -1407,7 +1422,7 @@ document.getElementById("unit-count").addEventListener("input", buildUnitInputs)
 document.getElementById("max-btn").addEventListener("click", applyMaxValues);
 document.getElementById("reset-btn").addEventListener("click", resetMultipliers);
 
-["potion-1", "potion-2", "potion-3", "vip", "power-pass", "follow-devs", "ugc", "extra-reward-1", "extra-reward-2"].concat(RELIC_IDS).forEach(function (id) {
+["potion-1", "potion-2", "potion-3", "potion-4", "vip", "power-pass", "follow-devs", "ugc", "extra-reward-1", "extra-reward-2"].concat(RELIC_IDS).forEach(function (id) {
   document.getElementById(id).addEventListener("change", updateDisplay);
 });
 
@@ -1416,6 +1431,7 @@ document.getElementById("player-level").addEventListener("input", updateDisplay)
 document.getElementById("index-enemies").addEventListener("input", updateDisplay);
 document.getElementById("quests-completed").addEventListener("input", updateDisplay);
 document.getElementById("stand-select").addEventListener("change", updateDisplay);
+document.getElementById("stand-2-select").addEventListener("change", updateDisplay);
 document.getElementById("form-select").addEventListener("change", updateDisplay);
 document.getElementById("form-level-select").addEventListener("change", updateDisplay);
 
@@ -1504,7 +1520,7 @@ var _F = [
   "servant-1-mult", "servant-2-mult", "quests-completed"
 ].concat(PROGRESSION_IDS);
 
-var _C = ["potion-1", "potion-2", "potion-3", "vip", "power-pass", "follow-devs"].concat(RELIC_IDS).concat(["ugc", "extra-reward-1", "extra-reward-2"]);
+var _C = ["potion-1", "potion-2", "potion-3", "vip", "power-pass", "follow-devs"].concat(RELIC_IDS).concat(["ugc", "extra-reward-1", "extra-reward-2", "potion-4"]);
 var _SK = ["none", "golden", "platinum", "the-world"];
 var _FK = ["none", "vyzard", "zangetsu"];
 
@@ -1566,6 +1582,7 @@ function exportBuild() {
   p.push(_v(document.getElementById("feat-stars-open-level")));
 
   p.push(document.getElementById("form-level-select").value || "1");
+  p.push(String(Math.max(0, _SK.indexOf(document.getElementById("stand-2-select").value))));
 
   // Trim trailing empty segments
   while (p.length > 0 && p[p.length - 1] === "") p.pop();
@@ -1669,6 +1686,11 @@ function importBuild(code) {
   
   if (g(off + 4)) {
     document.getElementById("form-level-select").value = g(off + 4);
+  }
+  
+  if (g(off + 5)) {
+    var s2i = parseInt(g(off + 5)) || 0;
+    document.getElementById("stand-2-select").value = _SK[s2i] || "none";
   }
 
   updateDisplay();

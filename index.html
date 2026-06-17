@@ -118,6 +118,10 @@
               <input type="checkbox" id="potion-3">
               <span>Tier 3 <em>2.5x</em></span>
             </label>
+            <label class="check-item">
+              <input type="checkbox" id="potion-4">
+              <span>Tier 4 <em>3x</em></span>
+            </label>
           </div>
         </div>
 
@@ -205,9 +209,17 @@
 
         <div class="mult-group">
           <span class="mult-label">Stands</span>
-          <div class="mult-input-row">
-            <label class="mult-field stand-field">
+          <div class="mult-input-row" style="gap: 5px;">
+            <label class="mult-field stand-field" style="flex: 1;">
               <select id="stand-select" class="gacha-select stand-select">
+                <option value="none">None</option>
+                <option value="golden">Golden — 3x</option>
+                <option value="platinum">Platinum — 4x</option>
+                <option value="the-world">The World — 6x</option>
+              </select>
+            </label>
+            <label class="mult-field stand-field" style="flex: 1;">
+              <select id="stand-2-select" class="gacha-select stand-select">
                 <option value="none">None</option>
                 <option value="golden">Golden — 3x</option>
                 <option value="platinum">Platinum — 4x</option>
@@ -338,6 +350,10 @@
             <label class="mult-field">
               <span>ManaVault</span>
               <input type="text" id="progression-fate-mult" class="mult-input" placeholder="7.25x">
+            </label>
+            <label class="mult-field">
+              <span>Armor Awakening</span>
+              <input type="text" id="progression-armor-mult" class="mult-input" placeholder="7.25x">
             </label>
           </div>
         </div>
