@@ -58,6 +58,7 @@ const GACHAS = [
   { name: "Transformation",   rarities: buildGachaRarities(LOW_GACHA_MULTS) },
   { name: "Dragon Power",     rarities: buildGachaRarities(LOW_GACHA_MULTS, true, 8) },
   { name: "Slime Power",      rarities: buildGachaRarities(DEFAULT_GACHA_MULTS, true) },
+  { name: "Evolution Form",   rarities: buildGachaRarities(DEFAULT_GACHA_MULTS) },
   { name: "Cursed Technique", rarities: buildGachaRarities(DEFAULT_GACHA_MULTS) },
   { name: "Cursed Spirit",    rarities: buildGachaRarities(DEFAULT_GACHA_MULTS) },
   { name: "Hunter",           rarities: buildGachaRarities(DEFAULT_GACHA_MULTS) },
@@ -69,7 +70,6 @@ const GACHAS = [
   { name: "Magic Career",     rarities: buildGachaRarities(DEFAULT_GACHA_MULTS) },
   { name: "PowerFull Class",             rarities: buildGachaRarities(DEFAULT_GACHA_MULTS) },
   { name: "Eclipse Relic",    rarities: buildGachaRarities(DEFAULT_GACHA_MULTS) },
-  { name: "Evolution Form",   rarities: buildGachaRarities(DEFAULT_GACHA_MULTS) },
 ];
 
 const STANDS = {
@@ -132,7 +132,7 @@ const MAX_CONFIG = {
   upgradeHollowMult:  4,
 
   // ── Skill Tree ─────────────────────────────────────────────
-  skillPirateMult:    2.4,
+  skillPirateMult:    3.7,
   skillMonarchMult:   3.5,
 
   // ── Progression (all use same value) ───────────────────────

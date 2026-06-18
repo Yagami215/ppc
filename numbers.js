@@ -74,11 +74,11 @@ function formatNumber(num) {
   let formatted;
 
   if (scaled >= 100) {
-    formatted = scaled.toFixed(1);
-  } else if (scaled >= 10) {
     formatted = scaled.toFixed(2);
-  } else {
+  } else if (scaled >= 10) {
     formatted = scaled.toFixed(3);
+  } else {
+    formatted = scaled.toFixed(4);
   }
 
   formatted = formatted.replace(/\.?0+$/, "");
