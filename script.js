@@ -70,6 +70,8 @@ const GACHAS = [
   { name: "Magic Career",     rarities: buildGachaRarities(DEFAULT_GACHA_MULTS) },
   { name: "PowerFull Class",             rarities: buildGachaRarities(DEFAULT_GACHA_MULTS) },
   { name: "Eclipse Relic",    rarities: buildGachaRarities(DEFAULT_GACHA_MULTS) },
+  { name: "Flow",             rarities: buildGachaRarities(DEFAULT_GACHA_MULTS, true) },
+  { name: "Gameplay Style",   rarities: buildGachaRarities(DEFAULT_GACHA_MULTS) },
 ];
 
 const STANDS = {
@@ -130,10 +132,12 @@ const MAX_CONFIG = {
   upgradeDragonMult:  4,
   upgradeTempestMult: 4,
   upgradeHollowMult:  4,
+  upgradeLockMult:    4,
 
   // ── Skill Tree ─────────────────────────────────────────────
   skillPirateMult:    3.7,
   skillMonarchMult:   3.5,
+  skillPlayerMult:    3.7,
 
   // ── Progression (all use same value) ───────────────────────
   progressionMult:    7.25,
@@ -190,6 +194,7 @@ const FEAT_WAVE = [
   { id: "ghoul-arena",      name: "Ghoul Arena",      maxWave: 1000 },
   { id: "magic-tower",      name: "Magic Tower",      maxWave: 100 },
   { id: "eclipse-invasion", name: "Eclipse Invasion", maxWave: 100 },
+  { id: "ego-defense",      name: "Ego Defense",      maxWave: 100 },
 ];
 
 const FEAT_STANDARD_MILESTONES = [
@@ -292,6 +297,7 @@ const PROGRESSION_IDS = [
   "progression-spirit-mult",
   "progression-fate-mult",
   "progression-armor-mult",
+  "progression-ego-mult",
 ];
 
 function getUnitPowers() {
@@ -658,8 +664,10 @@ function getBuffMultiplier() {
   mult *= parseMultiplier(document.getElementById("upgrade-dragon-mult").value);
   mult *= parseMultiplier(document.getElementById("upgrade-tempest-mult").value);
   mult *= parseMultiplier(document.getElementById("upgrade-hollow-mult").value);
+  mult *= parseMultiplier(document.getElementById("upgrade-lock-mult").value);
   mult *= parseMultiplier(document.getElementById("skill-pirate-mult").value);
   mult *= parseMultiplier(document.getElementById("skill-monarch-mult").value);
+  mult *= parseMultiplier(document.getElementById("skill-player-mult").value);
 
   PROGRESSION_IDS.forEach(function (id) {
     mult *= parseMultiplier(document.getElementById(id).value);
@@ -1216,10 +1224,12 @@ function applyMaxValues() {
   document.getElementById("upgrade-dragon-mult").value = formatMultiplier(MAX_CONFIG.upgradeDragonMult);
   document.getElementById("upgrade-tempest-mult").value = formatMultiplier(MAX_CONFIG.upgradeTempestMult);
   document.getElementById("upgrade-hollow-mult").value = formatMultiplier(MAX_CONFIG.upgradeHollowMult);
+  document.getElementById("upgrade-lock-mult").value = formatMultiplier(MAX_CONFIG.upgradeLockMult);
 
   // Skill Tree
   document.getElementById("skill-pirate-mult").value = formatMultiplier(MAX_CONFIG.skillPirateMult);
   document.getElementById("skill-monarch-mult").value = formatMultiplier(MAX_CONFIG.skillMonarchMult);
+  document.getElementById("skill-player-mult").value = formatMultiplier(MAX_CONFIG.skillPlayerMult);
 
   // Progression
   PROGRESSION_IDS.forEach(function (id) {
@@ -1360,10 +1370,12 @@ function resetMultipliers() {
   document.getElementById("upgrade-dragon-mult").value = "";
   document.getElementById("upgrade-tempest-mult").value = "";
   document.getElementById("upgrade-hollow-mult").value = "";
+  document.getElementById("upgrade-lock-mult").value = "";
 
   // Skill Tree
   document.getElementById("skill-pirate-mult").value = "";
   document.getElementById("skill-monarch-mult").value = "";
+  document.getElementById("skill-player-mult").value = "";
 
   // Progression
   PROGRESSION_IDS.forEach(function (id) {
@@ -1518,7 +1530,7 @@ var _F = [
   "skill-pirate-mult", "skill-monarch-mult",
   "kagune-mult", "grimoire-mult", "hunter-rank-mult",
   "servant-1-mult", "servant-2-mult", "quests-completed"
-].concat(PROGRESSION_IDS);
+].concat(PROGRESSION_IDS).concat(["upgrade-lock-mult", "skill-player-mult"]);
 
 var _C = ["potion-1", "potion-2", "potion-3", "vip", "power-pass", "follow-devs"].concat(RELIC_IDS).concat(["ugc", "extra-reward-1", "extra-reward-2", "potion-4"]);
 var _SK = ["none", "golden", "platinum", "the-world"];
