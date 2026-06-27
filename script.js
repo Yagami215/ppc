@@ -52,7 +52,7 @@ function buildGachaRarities(multTable, includeDivine, customDivineMult) {
 
 const GACHAS = [
   { name: "Star",             rarities: buildGachaRarities(DEFAULT_GACHA_MULTS, true) },
-  { name: "Pirate Crew",      rarities: buildGachaRarities(DEFAULT_GACHA_MULTS) },
+  { name: "Pirate Crew",      rarities: buildGachaRarities(DEFAULT_GACHA_MULTS, true) },
   { name: "Haki",             rarities: buildGachaRarities(DEFAULT_GACHA_MULTS, true) },
   { name: "Race",             rarities: buildGachaRarities(RACE_GACHA_MULTS, true) },
   { name: "Transformation",   rarities: buildGachaRarities(LOW_GACHA_MULTS) },
@@ -95,7 +95,7 @@ const HUNTER_RANKS = [1, 2, 4, 8, 16, 32];
 // ============================================================
 const MAX_CONFIG = {
   // ── Awakening & Level ──────────────────────────────────────
-  awakening:          73,
+  awakening:          78,
   playerLevel:        250,
   levelStatsMult:     27.24,
 
@@ -131,7 +131,7 @@ const MAX_CONFIG = {
   upgradeTrialMult:   4,
   upgradeDragonMult:  4,
   upgradeTempestMult: 4,
-  upgradeHollowMult:  4,
+  upgradeHollowMult:  5,
   upgradeLockMult:    4,
 
   // ── Skill Tree ─────────────────────────────────────────────
@@ -195,6 +195,7 @@ const FEAT_WAVE = [
   { id: "magic-tower",      name: "Magic Tower",      maxWave: 100 },
   { id: "eclipse-invasion", name: "Eclipse Invasion", maxWave: 100 },
   { id: "ego-defense",      name: "Ego Defense",      maxWave: 100 },
+  { id: "tempest-invasion-hard", name: "Tempest Invasion Hard", maxWave: 100 },
 ];
 
 const FEAT_STANDARD_MILESTONES = [
@@ -459,6 +460,11 @@ const AWAKENING_MULTS = [
   1.18e21,        // 71
   2.36e21,        // 72
   4.73e21,        // 73
+  9.46e21,        // 74
+  18.92e21,       // 75
+  37.84e21,       // 76
+  75.68e21,       // 77
+  151.36e21,      // 78
 ];
 
 function getAwakeningMultiplier() {
