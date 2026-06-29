@@ -72,6 +72,7 @@ const GACHAS = [
   { name: "Eclipse Relic",    rarities: buildGachaRarities(DEFAULT_GACHA_MULTS) },
   { name: "Flow",             rarities: buildGachaRarities(DEFAULT_GACHA_MULTS, true) },
   { name: "Gameplay Style",   rarities: buildGachaRarities(DEFAULT_GACHA_MULTS) },
+  { name: "Saiyajins",        rarities: buildGachaRarities(DEFAULT_GACHA_MULTS) },
 ];
 
 const STANDS = {
@@ -133,6 +134,7 @@ const MAX_CONFIG = {
   upgradeTempestMult: 4,
   upgradeHollowMult:  5,
   upgradeLockMult:    4,
+  upgradeNamekianMult: 3.5,
 
   // ── Skill Tree ─────────────────────────────────────────────
   skillPirateMult:    3.7,
@@ -196,6 +198,7 @@ const FEAT_WAVE = [
   { id: "eclipse-invasion", name: "Eclipse Invasion", maxWave: 100 },
   { id: "ego-defense",      name: "Ego Defense",      maxWave: 100 },
   { id: "tempest-invasion-hard", name: "Tempest Invasion Hard", maxWave: 100 },
+  { id: "namek-invasion",   name: "Namek Invasion",   maxWave: 100 },
 ];
 
 const FEAT_STANDARD_MILESTONES = [
@@ -671,6 +674,7 @@ function getBuffMultiplier() {
   mult *= parseMultiplier(document.getElementById("upgrade-tempest-mult").value);
   mult *= parseMultiplier(document.getElementById("upgrade-hollow-mult").value);
   mult *= parseMultiplier(document.getElementById("upgrade-lock-mult").value);
+  mult *= parseMultiplier(document.getElementById("upgrade-namekian-mult").value);
   mult *= parseMultiplier(document.getElementById("skill-pirate-mult").value);
   mult *= parseMultiplier(document.getElementById("skill-monarch-mult").value);
   mult *= parseMultiplier(document.getElementById("skill-player-mult").value);
@@ -1231,6 +1235,7 @@ function applyMaxValues() {
   document.getElementById("upgrade-tempest-mult").value = formatMultiplier(MAX_CONFIG.upgradeTempestMult);
   document.getElementById("upgrade-hollow-mult").value = formatMultiplier(MAX_CONFIG.upgradeHollowMult);
   document.getElementById("upgrade-lock-mult").value = formatMultiplier(MAX_CONFIG.upgradeLockMult);
+  document.getElementById("upgrade-namekian-mult").value = formatMultiplier(MAX_CONFIG.upgradeNamekianMult);
 
   // Skill Tree
   document.getElementById("skill-pirate-mult").value = formatMultiplier(MAX_CONFIG.skillPirateMult);
@@ -1377,6 +1382,7 @@ function resetMultipliers() {
   document.getElementById("upgrade-tempest-mult").value = "";
   document.getElementById("upgrade-hollow-mult").value = "";
   document.getElementById("upgrade-lock-mult").value = "";
+  document.getElementById("upgrade-namekian-mult").value = "";
 
   // Skill Tree
   document.getElementById("skill-pirate-mult").value = "";
@@ -1536,7 +1542,7 @@ var _F = [
   "skill-pirate-mult", "skill-monarch-mult",
   "kagune-mult", "grimoire-mult", "hunter-rank-mult",
   "servant-1-mult", "servant-2-mult", "quests-completed"
-].concat(PROGRESSION_IDS).concat(["upgrade-lock-mult", "skill-player-mult"]);
+].concat(PROGRESSION_IDS).concat(["upgrade-lock-mult", "skill-player-mult", "upgrade-namekian-mult"]);
 
 var _C = ["potion-1", "potion-2", "potion-3", "vip", "power-pass", "follow-devs"].concat(RELIC_IDS).concat(["ugc", "extra-reward-1", "extra-reward-2", "potion-4"]);
 var _SK = ["none", "golden", "platinum", "the-world"];
